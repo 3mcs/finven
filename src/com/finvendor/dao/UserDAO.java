@@ -63,6 +63,11 @@ public interface UserDAO {
 			String password);
 
 	
+	public Users getUserDetailsByUsername(String username);
+	
+	public int updateUnsuccessfulLoginAttempts(String username, boolean reset);
+	
+	public int updateUserAccountStatus(String username, boolean status);
 	
 	
 }

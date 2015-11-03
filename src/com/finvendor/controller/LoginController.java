@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -65,14 +66,14 @@ public class LoginController {
 	
 	@RequestMapping(value=RequestConstans.Home.HOME_PAGE, method=RequestMethod.GET)
 	public ModelAndView homePageLand(ModelMap modelMap,HttpServletRequest request){
-		logger.info("Method to load home page---:");
+		logger.info("Method to load home page 1---:");
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Home.HOME_PAGE);
 		return modelAndView;
 	}
 
 	@RequestMapping(value=RequestConstans.Login.LOGIN, method=RequestMethod.GET)
 	public ModelAndView loginInfo(ModelMap modelMap,HttpServletRequest request){
-		logger.info("Method to login page---:");
+		logger.info("Method to login page 2---:");
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.LOGIN);
 		return modelAndView;
 	}
@@ -88,21 +89,47 @@ public class LoginController {
 	public ModelAndView loginValidation(ModelMap modelMap,HttpServletRequest request,
 			@RequestParam(value = "VEuMlA", required = false) String username,
 			@RequestParam(value = "RaYulU", required = false) String password){
-		logger.info("Method to login page---:");
+		logger.info("Method to login page 3---:");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
-		boolean status = false;
+		String status = "false";
 		try{
 			username=CommonUtils.decrypt(username.getBytes());
 			password=CommonUtils.decrypt(password.getBytes());
+			Users user = userService.getUserDetailsByUsername(username);			
+			if(user == null){
+				logger.error("No User record available for : " + username);
+				status = status + ":" + RequestConstans.INVALID_USER;
+			}else{
+				logger.info("User enbabled : " + user.getEnabled());
+				if (!user.getEnabled()){
+					logger.error("User record is disabled for : " + username);
+					status = status + ":" + RequestConstans.ACCOUNT_DISABLED;
+				}else{
+					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+					if(encoder.matches(password, user.getPassword())){
+						userService.updateUnsuccessfulLoginAttempts(username, true);
+						status = "true";
+					}else{
+						logger.error("Incorrect password enterd for : " + username);
+						if(user.getLogin_attempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS){
+							userService.updateUserAccountStatus(username, false);
+						}else{
+							userService.updateUnsuccessfulLoginAttempts(username, false);
+						}
+						status = status + ":" + RequestConstans.INVALID_PASSWORD;
+					}
+				}
+			}
+			/*
 			List<Users> users = userService.getUserInfoByNamewithPassword(username,password);
 			if(users.size() > 0){
 				status = false;
 			}else{
 				status = true;
-			}
+			}*/
 			modelAndView.addObject("status", status);
 		}catch (Exception e) {
-			modelAndView.addObject("status", true);
+			modelAndView.addObject("status", false);
 			e.printStackTrace();
 			logger.error("Error to check user validation---:" + e);
 		}
@@ -121,7 +148,8 @@ public class LoginController {
 	@RequestMapping(value=RequestConstans.Login.WELCOME, method=RequestMethod.GET)
 	public ModelAndView welcomeInfo(HttpServletRequest request,@ModelAttribute("users") Users users,
 			@ModelAttribute("userRole") UserRole userRole,@ModelAttribute("vendor") Vendor vendor){
-		logger.info("Method to load all home pages---:");
+		logger.info("Method to load all home pages 4---:");
+		logger.info("redirectLink == " + (String)request.getSession().getAttribute("redirectLink"));
 		ModelAndView modelAndView=null;
 		if(SecurityContextHolder.getContext().
 				getAuthentication().getPrincipal() != null &&  SecurityContextHolder.getContext().
@@ -139,9 +167,11 @@ public class LoginController {
 					getAuthentication().getPrincipal();
 			try{
 			if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_ADMIN))){
-	       		modelAndView=new ModelAndView(RequestConstans.Login.ADMIN_INFO);
+				logger.info("ROLE = " + RequestConstans.Roles.ROLE_VENDOR);
+				modelAndView=new ModelAndView(RequestConstans.Login.ADMIN_INFO);
 	       		modelAndView.addObject("username", appUser.getUsername());
 	       	} else if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_VENDOR))){
+	       		logger.info("ROLE = " + RequestConstans.Roles.ROLE_VENDOR);
 	       		modelAndView=new ModelAndView(RequestConstans.Login.VENDOR_INFO);
 	       		assetClasses = marketDataAggregatorsService.getAllAssetClass();
 				regions = marketDataAggregatorsService.getAllRegionClass();
@@ -170,7 +200,7 @@ public class LoginController {
 	       		
 	       	} else if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_CONSUMER))){
 	       		modelAndView=new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
-	       	    
+	       		logger.info("ROLE = " + RequestConstans.Roles.ROLE_CONSUMER);
 	       		assetClasses = marketDataAggregatorsService.getAllAssetClass();
 				regions = marketDataAggregatorsService.getAllRegionClass();
 				countries = marketDataAggregatorsService.getAllCountries();
@@ -208,7 +238,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public ModelAndView loginError() {
-		logger.info("Method for login failed---:");
+		logger.info("Method for login failed 5---:");
 		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.SIGNIN_FAILED);
         modelAndView.addObject("error", "true");
@@ -224,7 +254,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/access-denied")
     public String accessDenied() {
-		logger.info("Method for access denied--:");
+		logger.info("Method for access denied 6--:");
           return "access-denied"; // logical view name
      }
 	
@@ -237,8 +267,8 @@ public class LoginController {
 	 */
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public ModelAndView logout() {
-		logger.info("Method for logout---:");
+	public ModelAndView logout(HttpServletRequest request) {
+		logger.info("Method for logout 7---:");
 		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.HOME);
 		return modelAndView;
@@ -255,7 +285,7 @@ public class LoginController {
 	
 	@RequestMapping(value=RequestConstans.Login.MY_HOME_PAGE, method = RequestMethod.GET)
 	public ModelAndView myHomePage(@RequestParam("RaYUnA") String username) {
-		logger.info("Method for logout---:");
+		logger.info("Method for logout 8---:");
 		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView  modelAndView= null;
 		try{
@@ -279,7 +309,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value =RequestConstans.Login.FORGET, method=RequestMethod.GET)
     public ModelAndView forgetPassword() {
-		logger.info("Method forget password page---:");
+		logger.info("Method forget password page 9---:");
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
          return modelAndView;
      }
@@ -293,7 +323,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value =RequestConstans.Login.RESET_PASSWORD, method=RequestMethod.GET)
     public ModelAndView resetForgetPassword(@RequestParam("email") String email) {
-		logger.info("Method to reset forget password---:");
+		logger.info("Method to reset forget password 10---:");
 		Users users=null;
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
        try{

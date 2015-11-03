@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.UserDAO;
 import com.finvendor.model.UserRole;
@@ -85,6 +86,27 @@ public class UserServiceImpl implements UserService{
 			String password) {
 		logger.info("getUsersInfoByNamewithPassword Method....");
 		return userDAO.getUserInfoByNamewithPassword(username,password);
+	}
+	
+	@Override
+	@Transactional
+	public Users getUserDetailsByUsername(String username){
+		logger.debug("Entering : UserServiceImpl.getUserDetailsByUsername");
+		Users user = userDAO.getUserDetailsByUsername(username);
+		logger.debug("Leaving : UserServiceImpl.getUserDetailsByUsername");
+		return user;
+	}
+	
+	@Override
+	@Transactional
+	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
+		return userDAO.updateUnsuccessfulLoginAttempts(username, reset);
+	}
+	
+	@Override
+	@Transactional
+	public int updateUserAccountStatus(String username, boolean status){
+		return userDAO.updateUserAccountStatus(username, status);
 	}
 	
 }

@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+//jQuery(document).ready(function($){
 	var $form_modal = $('.cd-user-modal'),
 		$form_login = $form_modal.find('#cd-login'),
 		$form_signup = $form_modal.find('#cd-signup'),
@@ -142,25 +142,27 @@ jQuery(document).ready(function($){
 		});
 	}*/
 
-});
+//});
 
-function loginSubmit(){
+function loginSubmit(contextPath){
 	var username= $("#signin-username").val();
 	var password= $("#signin-password").val();
+	var urlPrefix = (contextPath == '/') ? "" : contextPath;
 	if(username != '' && username.length > 0 && password != '' && password.length > 0 ){
 		username = encode64(username);
 		password = encode64(password);
 		$.ajax({
 			type: 'POST',
-			url:  "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
+			url:  contextPath + "/checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
 			cache: false,
 			success: function(output) {
-				if (output.match("true")) {	
-					document.getElementById("errMsgValidate").innerHTML = "Your login attempt was not successful, try again.";
+				if (output.match("false")) {	
+					var errorMessage = output.split(":")[1];
+					document.getElementById("errMsgValidate").innerHTML = errorMessage;
 					return false;
 				} else {
 					document.getElementById("errMsgValidate").innerHTML = "";
-					$('.cd-user-modal').removeClass('is-visible');
+					$('.cd-user-modal').removeClass('is-visible');					
 					$('form#login-submit').submit();
 				}
 			}
@@ -188,3 +190,11 @@ jQuery.fn.putCursorAtEnd = function() {
     	}
 	});
 };
+
+function inner_login(redirectLink){
+	$main_nav.children('ul').removeClass('is-visible');
+	document.getElementsByClassName('nav-srch')[0].style.display="none";
+	$form_modal.addClass('is-visible');	
+	login_selected();
+	$('#redirectLink').val(redirectLink);
+}

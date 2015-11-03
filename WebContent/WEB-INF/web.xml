@@ -62,4 +62,11 @@
       <param-value>true</param-value>
     </init-param>
   </filter>
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type >
+    <location>/view/errorPage.jsp</location>
+</error-page>
 </web-app>

@@ -92,6 +92,9 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 		List<Awards> awards = null;
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.VENDOR_INFO);
 		try{
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();

@@ -25,6 +25,10 @@ import com.finvendor.model.Users;
 public class UserDAOImpl implements UserDAO{
 
 	private static Logger logger = Logger.getLogger(UserDAOImpl.class);
+	private static final String SEL_USER_DETAILS_FROM_USERNAME = "SELECT username, password, enabled, last_login, login_attempts FROM USERS WHERE username = :username";
+	private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE USERS SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
+	private static final String RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE USERS SET login_attempts = 0, last_login = CURRENT_TIMESTAMP(), last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
+	private static final String UPDATE_USER_STATUS = "UPDATE USERS SET enabled = :enabled, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -130,8 +134,10 @@ public class UserDAOImpl implements UserDAO{
 		List<Users>  users = new ArrayList<Users>();
 		Users usersinfo= new Users();
 		try{
-			 hsql = "select * from users where username='"+username+"' and password = '"+password+"' ";
+			 hsql = "select * from users where username = :username and password = :password";
 	    	 sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(hsql);
+	    	 sqlQuery.setParameter("username", username);
+	    	 sqlQuery.setParameter("password", password);
 	    	 @SuppressWarnings("unchecked")
 			List<Object[]> usersObject = sqlQuery.list();
 	    	 for (int i = 0; i < usersObject.size(); i++) {
@@ -147,6 +153,46 @@ public class UserDAOImpl implements UserDAO{
 			logger.error("Error in getUsersInfoByNamewithPassword---- " + ex);
 		}
 		return users;
+	}
+	
+	@Override
+	public Users getUserDetailsByUsername(String username){
+		logger.debug("Entering UserDAOImpl:getUserDetailsByUsername");
+		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(SEL_USER_DETAILS_FROM_USERNAME);
+		sqlQuery.addEntity(Users.class);
+		sqlQuery.setParameter("username", username);
+		logger.debug("Leaving UserDAOImpl:getUserDetailsByUsername");
+		return (Users)sqlQuery.uniqueResult();
+		//logger.debug("Leaving UserDAOImpl:getUserDetailsByUsername");
+		//return user.size() == 0  ? null : user.get(0);
+	}
+	
+	@Override
+	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
+		logger.debug("Entering UserDAOImpl:updateUnsucessfulLoginAttempts");
+		int updatedRows = 0;
+		SQLQuery sqlQuery = null;
+		if(reset){
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS);
+		}else{
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS);
+		}		
+		sqlQuery.setParameter("username", username);
+		updatedRows = sqlQuery.executeUpdate();
+		logger.debug("Leaving UserDAOImpl:updateUnsucessfulLoginAttempts");
+		return updatedRows;
+	}
+	
+	@Override	
+	public int updateUserAccountStatus(String username, boolean status){
+		logger.debug("Entering UserDAOImpl:updateUserAccountStatus");
+		int updatedRows = 0;
+		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_STATUS);
+		sqlQuery.setParameter("username", username);
+		sqlQuery.setParameter("enabled", status);
+		updatedRows = sqlQuery.executeUpdate();
+		logger.debug("Leaving UserDAOImpl:updateUserAccountStatus");
+		return updatedRows;
 	}
 	
 	

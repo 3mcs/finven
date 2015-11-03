@@ -1,6 +1,7 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
 <!doctype html>
 <html lang="en" class="no-js">
    <!-- Author by Rayulu vemula -->
@@ -9,7 +10,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/login.css"> <!-- Gem style -->
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginreset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginmain.css"> <!-- Gem style -->
 </head>
 <body>
 	 
@@ -21,7 +23,8 @@
 				<li><a href="#0">Register</a></li>
 			</ul>
 			<div id="cd-login"> <!-- login form -->
-				<form class="cd-form" style="padding: 7em;" action="<c:url value='j_spring_security_check' />" method="post" id="login-submit"><font id="sucessMessage" style="padding:1px 2px 21px 160px; bottom: 306px; font-weight:bold; font-size: 12px; position: absolute; color: #2AABAB;"></font>
+				<form class="cd-form" style="padding: 7em;" action="${finVen:resolveContextPath(pageContext.request.contextPath)}/j_spring_security_check" method="post" id="login-submit"><font id="sucessMessage" style="padding:1px 2px 21px 160px; bottom: 306px; font-weight:bold; font-size: 12px; position: absolute; color: #2AABAB;"></font>
+				  <input type="hidden" id="redirectLink" name="redirectLink"/>
 				  <div style="border: 1px solid #41BFDA; padding: 0px 44px 0px 44px; border-radius:22px;">
 				  <div><br></div>
 					<p class="fieldset">
@@ -43,7 +46,7 @@
 					</p>
 
 					<p class="fieldset">
-						<input class="full-width" type="submit" value="Login" onclick="loginSubmit();">
+						<input class="full-width" type="submit" value="Login" onclick="loginSubmit('${finVen:resolveContextPath(pageContext.request.contextPath)}');">
 					</p>
 					<div><br></div>
 					</div>
@@ -189,6 +192,6 @@
 			
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->
-<script src="<%=request.getContextPath() %>/resources/js/jquery.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/newlogin/js/jquery.min.js"></script>
 </body>
 </html>

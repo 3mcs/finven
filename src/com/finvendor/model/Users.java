@@ -4,15 +4,13 @@
 package com.finvendor.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
- 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,14 +29,20 @@ public class Users implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="username")
+	@Column(name="USERNAME")
 	private String userName;
 
-	@Column(name="password")
+	@Column(name="PASSWORD")
 	private String password;
 	
-	@Column(name="enabled")
+	@Column(name="ENABLED")
 	private Boolean enabled;
+	
+	@Column(name="LOGIN_ATTEMPTS")
+	private short login_attempts;
+		
+	@Column(name="LAST_LOGIN")
+	private Timestamp last_login;
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="users")
 	private Set<UserRole> userRoles=new HashSet<UserRole>();
@@ -117,6 +121,21 @@ public class Users implements Serializable{
 		this.vendor = vendor;
 	}
 
+	public short getLogin_attempts() {
+		return login_attempts;
+	}
+
+	public void setLogin_attempts(short login_attempts) {
+		this.login_attempts = login_attempts;
+	}
+
+	public Timestamp getLast_login() {
+		return last_login;
+	}
+
+	public void setLast_login(Timestamp last_login) {
+		this.last_login = last_login;
+	}
 
 }
 

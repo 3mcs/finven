@@ -63,6 +63,9 @@ public class TradingApplicationVendor {
 			List<Awards> awards = null;
 			ModelAndView modelAndView=new ModelAndView(RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE);
 			try{
+				if(request.getSession().getAttribute("loggedInUser") == null){
+					return new ModelAndView(RequestConstans.Login.HOME);
+				}
 				username = CommonUtils.decrypt(username.getBytes());
 				 String usernameCheck= SecurityContextHolder.getContext().
 						getAuthentication().getName(); 

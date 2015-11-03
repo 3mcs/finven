@@ -13,7 +13,8 @@
 		<intercept-url pattern="/consumer*" access="ROLE_ADMIN,ROLE_CONSUMER"/>
 		<form-login login-page="/welcometodashboards" default-target-url="/welcometodashboards" 
 		username-parameter="username" password-parameter="password" 
-			authentication-failure-url="/loginfailed"  />
+			authentication-failure-url="/loginfailed" 
+			authentication-success-handler-ref="redirectParameterHandler"/>
 		<logout logout-success-url="/logout" />
 		<access-denied-handler error-page="/access-denied"/> 
 	</http> 
@@ -25,9 +26,15 @@
                 data-source-ref="dataSource"
                 users-by-username-query="select username,password,enabled from users where username=?"
                 authorities-by-username-query="SELECT a.username, b.rolename FROM users a, roles b, user_roles c WHERE a.username = c.username AND b.role_id = c.role_id AND a.username =?" />
+        	<password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
     
-    
+    <beans:bean id="redirectParameterHandler"
+     class="com.finvendor.controller.RedirectParameterHandler"/>
+     
+     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" >
+	   	 <beans:constructor-arg name="strength" value="10" />
+	</beans:bean>
 
 </beans:beans>

@@ -63,6 +63,9 @@ private static Logger logger = Logger.getLogger(ResearchReportProvidersVendor.cl
 			List<Awards> awards = null;
 			ModelAndView modelAndView=new ModelAndView(RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE);
 			try{
+				if(request.getSession().getAttribute("loggedInUser") == null){
+					return new ModelAndView(RequestConstans.Login.HOME);
+				}
 				username = CommonUtils.decrypt(username.getBytes());
 				 String usernameCheck= SecurityContextHolder.getContext().
 						getAuthentication().getName(); 

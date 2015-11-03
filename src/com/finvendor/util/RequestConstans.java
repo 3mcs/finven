@@ -303,4 +303,12 @@ public class RequestConstans {
 	
 	
 	public static String[] ASSETSLIST = { "Equities", "FI", "Indices", "Derivatives", "FX", "AI", "Misc" };
+	
+	public static final int MAX_UNSUCCESSFUL_ATTEMPTS = 5;
+	
+	public static final String INVALID_USER = "User Account is not registered";
+	public static final String INVALID_PASSWORD = "Invalid Password entered.\nPlease note account will be locked after" + MAX_UNSUCCESSFUL_ATTEMPTS + "unsuccessful attempts.";
+	public static final String ACCOUNT_DISABLED = "User Account is disabled";
+	public static final String UNSUCCESSFUL_ATTEMPTS = "" + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessfull password attempts. Account is disabled";
+		
 }

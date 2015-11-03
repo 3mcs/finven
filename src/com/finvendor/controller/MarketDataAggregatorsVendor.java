@@ -73,7 +73,9 @@ public class MarketDataAggregatorsVendor {
 			List<Awards> awards = null;
 			ModelAndView modelAndView=new ModelAndView(RequestConstans.MarketAggregators.MARKETAGGREGATORS);
 			try{
-				
+				if(request.getSession().getAttribute("loggedInUser") == null){
+					return new ModelAndView(RequestConstans.Login.HOME);
+				}
 				username = CommonUtils.decrypt(username.getBytes());
 				
 				 String usernameCheck= SecurityContextHolder.getContext().

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -298,11 +299,12 @@ public class RegistrationController {
 		try{
 			uname=CommonUtils.decrypt(uname.getBytes());
 			password=CommonUtils.decrypt(password.getBytes());
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 			email=CommonUtils.decrypt(email.getBytes());
 			logger.info("Mehtod to save vendor information--:");
 			modelAndView=new ModelAndView(RequestConstans.Register.EMPTY);
 			users.setUserName(uname.toLowerCase());
-			users.setPassword(password);
+			users.setPassword(encoder.encode(password));
 			users.setEnabled(true);
 			userService.saveUserInfo(users);
 			// Vendor information Registration

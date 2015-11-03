@@ -111,7 +111,14 @@
 <div class="clearfix"></div>
 <div class="main-wrap" id="main-wrap">
 	<div class="main-content-wrap">
-		<a href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>?RaYUnA=${finVen:encrypt(username)}">
+		<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null}">
+				<a href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')">
+			</c:otherwise>
+		</c:choose>
 			<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
 		</a>
 		<h2>
@@ -125,7 +132,14 @@
 			alt="" title="" class="read-more" /></a>
 	</div>
 	<div class="main-content-wrap">
-		<a href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>?RaYUnA=${finVen:encrypt(username)}">
+		<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null}">
+				<a href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')">
+			</c:otherwise>
+		</c:choose>	
 			<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
 		</a>
 		<h2>
@@ -139,7 +153,14 @@
 			alt="" title="" class="read-more" /></a>
 	</div>
 	<div class="main-content-wrap">
-		<a href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>?RaYUnA=${finVen:encrypt(username)}">
+		<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null}">
+				<a href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')">
+			</c:otherwise>
+		</c:choose>
 			<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 		</a>
 		<h2>
@@ -153,7 +174,14 @@
 			alt="" title="" class="read-more" /></a>
 	</div>
 	<div class="main-content-wrap last-child">
-		<a href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>?RaYUnA=${finVen:encrypt(username)}">
+		<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null}">
+				<a href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>">
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')">
+			</c:otherwise>
+		</c:choose>
 			<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 		</a>
 		<h2>
