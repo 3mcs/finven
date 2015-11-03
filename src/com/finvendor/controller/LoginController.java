@@ -129,7 +129,7 @@ public class LoginController {
 			}*/
 			modelAndView.addObject("status", status);
 		}catch (Exception e) {
-			modelAndView.addObject("status", false);
+			modelAndView.addObject("status", "false:Error during login");
 			e.printStackTrace();
 			logger.error("Error to check user validation---:" + e);
 		}
