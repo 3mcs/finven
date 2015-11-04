@@ -270,6 +270,9 @@ public class LoginController {
 	public ModelAndView logout(HttpServletRequest request) {
 		logger.info("Method for logout 7---:");
 		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (request.getSession() != null ){
+			request.getSession().invalidate();
+		}
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.HOME);
 		return modelAndView;
  
