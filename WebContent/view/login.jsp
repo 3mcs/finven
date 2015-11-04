@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginreset.css"> <!-- CSS reset -->
+	<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginreset.css"> <!-- CSS reset -->--%>
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/login.css"> <!-- Gem style -->
 </head>
 <body>
