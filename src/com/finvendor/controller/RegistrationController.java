@@ -3,7 +3,9 @@
  */
 package com.finvendor.controller;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -306,6 +308,7 @@ public class RegistrationController {
 			users.setUserName(uname.toLowerCase());
 			users.setPassword(encoder.encode(password));
 			users.setEnabled(true);
+			users.setRegistration_date(new Timestamp(System.currentTimeMillis()));
 			userService.saveUserInfo(users);
 			// Vendor information Registration
 			if (Arrays.asList(vendorTypes).contains(companytype)) {

@@ -44,6 +44,9 @@ public class Users implements Serializable{
 	@Column(name="LAST_LOGIN")
 	private Timestamp last_login;
 	
+	@Column(name="REGISTRATION_DATE")
+	private Timestamp registration_date;
+	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="users")
 	private Set<UserRole> userRoles=new HashSet<UserRole>();
 	
@@ -137,5 +140,14 @@ public class Users implements Serializable{
 		this.last_login = last_login;
 	}
 
+	public Timestamp getRegistration_date() {
+		return registration_date;
+	}
+
+	public void setRegistration_date(Timestamp registration_date) {
+		this.registration_date = registration_date;
+	}
+
+	
 }
 
