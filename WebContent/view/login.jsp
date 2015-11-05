@@ -12,9 +12,22 @@
 	<!-- <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
 	<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginreset.css"> <!-- CSS reset -->--%>
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/login.css"> <!-- Gem style -->
+	
+	   <script language="javascript" type="text/javascript">
+        function openPopupCenter(pageURL, title, w, h) {
+            var left = (screen.width - w) / 2;
+            var top = (screen.height - h) / 4;
+            var targetWin = window.open(pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+        } 
+    </script>
+	
+	<script>
+  $(function() {
+    $( "#dialog" ).dialog();
+  });
+  </script>
 </head>
 <body>
-	 
 	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
 		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 		<span class="logmod__close" id="login-close" style="padding: 37px 37px 78px 8px; margin: 29px -375px 0 0;">Close</span>
@@ -149,10 +162,10 @@
 					<br>
 					<p class="fieldset"> 
 						<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" /> 
-						<label for="accept-terms">I agree to the <a href="#0" id="termsconditions">Terms & Conditions</a>
+						<label for="accept-terms">I agree to the <a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)" id="termsconditions">Terms & Conditions</a>
 						</label><br>
 						<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" /> 
-						<label for="accept-terms">I wish to get regular <a href="#0" id="termsconditions">Newsletters & Alerts</a>
+						<label for="accept-terms">I wish to get regular <a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/newslettersAndAlerts.jsp', 'newslettersAndAlerts', 800, 600)"id="termsconditions">Newsletters & Alerts</a>
 						</label>
 						<font id="errMessageforMandatory"  style="padding:1px 2px 21px 160px; bottom: -23px;font-size: 12px; text-align:center; border-style:center; position: absolute; color: #B94A48;"></font>
 										 <font id="sucessMessage" style="padding:1px 2px 21px 160px; bottom: -23px; font-size: 12px; position: absolute; color: #2AABAB;"></font>
@@ -192,6 +205,6 @@
 			
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->
-<script src="<%=request.getContextPath() %>/resources/newlogin/js/jquery.min.js"></script>
+
 </body>
 </html>
