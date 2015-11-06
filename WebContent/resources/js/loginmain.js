@@ -153,7 +153,8 @@ function loginSubmit(contextPath){
 		password = encode64(password);
 		$.ajax({
 			type: 'POST',
-			url:  contextPath + "/checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
+			//url:  contextPath + "/checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
+			url:  "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
 			cache: false,
 			success: function(output) {
 				if (output.match("false")) {	

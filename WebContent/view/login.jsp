@@ -21,11 +21,6 @@
         } 
     </script>
 	
-	<script>
-  $(function() {
-    $( "#dialog" ).dialog();
-  });
-  </script>
 </head>
 <body>
 	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
@@ -36,7 +31,7 @@
 				<li><a href="#0">Register</a></li>
 			</ul>
 			<div id="cd-login"> <!-- login form -->
-				<form class="cd-form" style="padding: 7em;" action="${finVen:resolveContextPath(pageContext.request.contextPath)}/j_spring_security_check" method="post" id="login-submit"><font id="sucessMessage" style="padding:1px 2px 21px 160px; bottom: 306px; font-weight:bold; font-size: 12px; position: absolute; color: #2AABAB;"></font>
+				<form class="cd-form" style="padding: 7em;" action="j_spring_security_check" method="post" id="login-submit"><font id="sucessMessage" style="padding:1px 2px 21px 160px; bottom: 306px; font-weight:bold; font-size: 12px; position: absolute; color: #2AABAB;"></font>
 				  <input type="hidden" id="redirectLink" name="redirectLink"/>
 				  <div style="border: 1px solid #41BFDA; padding: 0px 44px 0px 44px; border-radius:22px;">
 				  <div><br></div>
