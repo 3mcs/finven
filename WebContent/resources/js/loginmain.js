@@ -147,14 +147,15 @@
 function loginSubmit(contextPath){
 	var username= $("#signin-username").val();
 	var password= $("#signin-password").val();
-	var urlPrefix = (contextPath == '/') ? "" : contextPath;
+	var http = location.protocol;
+	var slashes = http.concat("//");
+	var urlPrefix = slashes.concat(window.location.host).concat("/");
 	if(username != '' && username.length > 0 && password != '' && password.length > 0 ){
 		username = encode64(username);
 		password = encode64(password);
 		$.ajax({
 			type: 'POST',
-			//url:  contextPath + "/checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
-			url:  "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
+			url:  urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
 			cache: false,
 			success: function(output) {
 				if (output.match("false")) {	

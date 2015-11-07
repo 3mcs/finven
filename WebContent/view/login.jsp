@@ -2,25 +2,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
-<!doctype html>
 <html lang="en" class="no-js">
-   <!-- Author by Rayulu vemula -->
-<!-- http://codyhouse.co/redirect/?resource=login-signup-modal-window -->
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
-	<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/newlogin/css/loginreset.css"> <!-- CSS reset -->--%>
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/login.css"> <!-- Gem style -->
-	
-	   <script language="javascript" type="text/javascript">
-        function openPopupCenter(pageURL, title, w, h) {
-            var left = (screen.width - w) / 2;
-            var top = (screen.height - h) / 4;
-            var targetWin = window.open(pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-        } 
-    </script>
-	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">	
+	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 </head>
 <body>
 	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
@@ -200,6 +187,5 @@
 			
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->
-
 </body>
 </html>
