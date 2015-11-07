@@ -14,7 +14,7 @@
 		 </ul>
 		</div></div>
 		<br/>
-		© 2015 Fin Vendor. All rights reserved.
+		Â© 2015 Fin Vendor. All rights reserved.
 		<br/>
 		<div class="right_nav_area_2">
 			<div class="right_nav_2">
@@ -43,7 +43,7 @@
 	</div>
 	<!-- Basic Jquery plugins start-->
 	<script src="<%=request.getContextPath() %>/resources/js/form-wizard.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath() %>/resources/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/resources/js/jquery-1.11.0.min.js" type="text/javascript"></script>
     <script src="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
     <script src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
     <script src="<%=request.getContextPath() %>/resources/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
