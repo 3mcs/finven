@@ -25,10 +25,10 @@ import com.finvendor.model.Users;
 public class UserDAOImpl implements UserDAO{
 
 	private static Logger logger = Logger.getLogger(UserDAOImpl.class);
-	private static final String SEL_USER_DETAILS_FROM_USERNAME = "SELECT username, password, enabled, last_login, login_attempts, registration_date FROM USERS WHERE username = :username";
-	private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE USERS SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
-	private static final String RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE USERS SET login_attempts = 0, last_login = CURRENT_TIMESTAMP(), last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
-	private static final String UPDATE_USER_STATUS = "UPDATE USERS SET enabled = :enabled, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
+	private static final String SEL_USER_DETAILS_FROM_USERNAME = "SELECT username, password, enabled, last_login, login_attempts, registration_date FROM users WHERE username = :username";
+	private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
+	private static final String RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = 0, last_login = CURRENT_TIMESTAMP(), last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
+	private static final String UPDATE_USER_STATUS = "UPDATE users SET enabled = :enabled, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	
 	@Autowired
 	private SessionFactory sessionFactory;
