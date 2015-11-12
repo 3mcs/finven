@@ -26,10 +26,10 @@
 					<div class="area">
 						<div class="Rowtableinfovaluserpng">
 							<div class="ColumnCommonrayuserlogout">
-								<a href="<%=request.getContextPath() %>/logout"><span class="lable_headeractionsuserpng"><img src="<%=request.getContextPath() %>/resources/singleasset/images/sign-out.png" width="25" height="25"/>Logout</span></a>
+								<a href="<%=request.getContextPath() %>/logout"><span class="lable_headeractionsuserpng"><img src="<%=request.getContextPath() %>/resources/images/sign-out.png" width="25" height="25"/>Logout</span></a>
 							</div>  
 							<div class="ColumnCommonrayuserpng">
-								<a href="#normalModal"><span class="lable_headeractionsuserpng"><img src="<%=request.getContextPath() %>/resources/singleasset/images/user.png" width="30" height="30"/> Welcome <c:out value="${fn:toUpperCase(username)}" /></span></a>
+								<a href="#normalModal"><span class="lable_headeractionsuserpng"><img src="<%=request.getContextPath() %>/resources/images/user.png" width="30" height="30"/> Welcome <c:out value="${fn:toUpperCase(username)}" /></span></a>
 							</div>  
 						</div> 
 					</div>
