@@ -20,8 +20,10 @@ jQuery(document).ready(function() {
 				&& datacoverageexchange != '-SELECT-'   && datacoverageexchange != null && datacoverageexchange.length >0 &&
 				dataattribute != null && dataattribute.length > 0){
 			document.getElementById("supportceoveragevalidationforaddmore").innerHTML = '';
+			
 			$("#sample_1 tbody").append('<tr><td>' + assetclass + '</td><td>' + securitynames + '</td> <td>' + datacoverageregion + '</td>   <td>' + datacoveragecountry + '</td>  <td>' + datacoverageexchange + '</td>  <td>' + dataattribute + '</td>  <td><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
 			var table = $('#sample_1').tableToJSON();
+			
 			document.getElementById('jsontable1').value = JSON.stringify(table);
 		}else{
 			document.getElementById("supportceoveragevalidationforaddmore").innerHTML = 'please choose mandatory fields..!';
@@ -313,6 +315,8 @@ jQuery(document).ready(function() {
 });
 
 function loadSecurityTypes(assettypeId) {
+	
+	
 		if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
 			assettypeId = encode64(assettypeId);
 			$.ajax({
@@ -328,7 +332,10 @@ function loadSecurityTypes(assettypeId) {
 			});
 		}
 	}
+
 function loadSecurityAwardTypes(assettypeId) {
+	
+	
 	if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
 		assettypeId = encode64(assettypeId);
 		$.ajax({
@@ -345,6 +352,7 @@ function loadSecurityAwardTypes(assettypeId) {
 	}
 }
 function loadSecurityDistriTypes(assettypeId) {
+	
 	if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
 		assettypeId = encode64(assettypeId);
 		$.ajax({
