@@ -19,7 +19,7 @@
 <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tabs.css" />
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tab.css" />
 <script type="text/javascript">
 	function ons() {
 		window.alert('ccc');
