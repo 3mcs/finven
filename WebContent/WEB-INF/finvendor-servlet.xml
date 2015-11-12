@@ -62,6 +62,23 @@
    <bean id="marketDataAggregatorsService" class="com.finvendor.serviceimpl.MarketDataAggregatorsServiceImpl" />
    <bean id="marketDataAggregatorsDAO" class="com.finvendor.daoimpl.MarketDataAggregatorsDAOImpl"></bean>
    
+   <!-- Mail Service -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+  <property name="host" value="mail.finvendor.com" />  
+    <property name="username" value="enquiry@finvendor.com" />  
+    <property name="password" value="amv_enq11" />  
+   
+    <property name="javaMailProperties">  
+       <props>  
+              <prop key="mail.smtp.auth">true</prop>  
+           </props>  
+    </property>  
+  
+</bean> 
+   <bean id="mailService" class="com.finvendor.serviceimpl.MailServiceImpl" >
+    <property name="mailSender" ref="mailSender" />  
+</bean> 
+   <!-- Mail Service -->
    
     <bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
