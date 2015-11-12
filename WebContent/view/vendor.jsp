@@ -1413,8 +1413,7 @@
 	<!-- tab active code starts here-->
 	<script type="text/javascript">
 window.onload = function(){
-	var personalDetails= '<%=RequestConstans.Vendor.PERSONALDETAILS%>
-		';
+	var personalDetails= '<%=RequestConstans.Vendor.PERSONALDETAILS%>';
 			if (personalDetails != null && personalDetails.length > 0
 					&& personalDetails.match("personaldetails")) {
 				document.getElementById('change').style.backgroundColor = '#5CE5E5';
@@ -1450,6 +1449,23 @@ window.onload = function(){
 			$("#inputField").datepicker();
 			$("#inputField1").datepicker();
 		});
+		function loadSecurityTypes(assettypeId) {
+		 	
+				if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
+					assettypeId = encode64(assettypeId);
+					$.ajax({
+						type: 'GET',
+						url:  "loadVendorSecurityTypes?RAyuL="+assettypeId,
+						cache:false,
+						success : function(output){
+							document.getElementById("assetClassVendorSecurityMaps").innerHTML = output;		
+						},
+						error : function(data, textStatus, jqXHR){
+							//alert('Error: '+data+':'+textStatus);
+						}
+					});
+				}
+			}
 	</script>
 	<script src="//code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"
