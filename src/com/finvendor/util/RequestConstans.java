@@ -34,6 +34,10 @@ public class RequestConstans {
 		public static final String ZERO_VALUE="0";
 	}
 	
+	public interface MAIL{
+		public static final String MAIL_SEND="sendMail";
+	}
+	
 	public interface Login{
 		public static final String LOGIN="login";
 		public static final String LOGOUT="logout";
