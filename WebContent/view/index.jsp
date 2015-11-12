@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery-ui.css" />
+
+
 </head>
 <body>
 <c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
@@ -37,16 +39,43 @@
     <a href="#">
         <div id="sideslider-smartbutton">
             <div id="sideslider-text">
-                <form>
-				Name:<br>
-				<input type="text" name="firstname">  <br>
-				Company name:<br>
-				<input type="text" name="firstname">  <br>
-				Email<br>
-				<input type="text" name="lastname">
-				<br>
-				<input type="button" value="Submit"/>
-				</form>
+            <style type="text/css">
+.contact_loading {
+	min-height: 50px;
+	background:  url(<%=request.getContextPath() %>/resources/images/bx_loader.gif) center center no-repeat #fff;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2000;
+	display: none;
+	opacity: 0.6;
+</style>
+                <form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form"> 
+							<p>
+								<input type="text" name="contact_us_name" id="contact_us_name" placeholder="Name" size="30"/>
+						<span id="contactNameError" style="display: none;">Please enter your Name.</span>
+							</p>
+							<p>
+								<input type="text" name="contact_us_phone" id="contact_us_phone" placeholder="Phone" size="30"/>
+								<span id="contactPhoneError" style="display: none;">Please enter a valid phone number</span>
+							</p>		
+							<p>
+								<input type="text" name="contact_us_email" id="contact_us_email" placeholder="Email" size="30"/>
+								<span id="contactEmailError" style="display: none;">Please enter a valid email address</span>
+							</p>						
+							<p>
+								<textarea name="contact_us_message" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
+							</p>
+							<br>
+							<input type="button" value="Submit" name="Submit" id="call"/>
+							<div id="loadingct" class="contact_loading" ></div>
+    							<div id="output"></div>
+				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->	    	
+						
+				</form> 
+				
 				
             </div>
             <div class="sideclear"></div>
@@ -66,7 +95,11 @@
 
     });
 </script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/mail-functions.js"></script>
 <!-- <script type="text/javascript">
+        $(document).ready(senAJAXMail());
+    </script>
+<script type="text/javascript">
 window.onload = function(){
 	alert('message view---:');
 	var check= '${checkingresultpageview}';

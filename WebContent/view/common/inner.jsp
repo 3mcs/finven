@@ -11,13 +11,13 @@
 		<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/tabs.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/newsingleasset/css/main.css" rel="stylesheet"/>
+		<!-- being referenced - no file found <link href="${pageContext.request.contextPath}/resources/newsingleasset/css/main.css" rel="stylesheet"/> -->
 		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/newlogin/js/superfish.js"></script>
+		<!-- being referenced - no file found<script src="${pageContext.request.contextPath}/resources/newlogin/js/superfish.js--></script>
 		
 		<script>
 			
@@ -305,24 +305,47 @@
 			      <h1>Leave us a message...</h1>
 			      	 <br>
 				     <div id="container">
-						<form action="" method="post" id="contact_us_form">
+					<style type="text/css">
+					.contact_loading {
+						min-height: 50px;
+						background: url(<%=request.getContextPath()%>/resources/images/bx_loader.gif)
+							center center no-repeat #fff;
+						height: 100%;
+						width: 100%;
+						position: absolute;
+						top: 0;
+						left: 0;
+						z-index: 2000;
+						display: none;
+						opacity: 0.6
+					}
+					</style>
+					<form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form"> 
 							<p>
 								<input type="text" name="contact_us_name" id="contact_us_name" placeholder="Name" size="30"/>
+							<span id="contactNameError" style="display: none;">Please enter your Name.</span>
 							</p>
 							<p>
 								<input type="text" name="contact_us_phone" id="contact_us_phone" placeholder="Phone" size="30"/>
+								<span id="contactPhoneError" style="display: none;">Please enter a valid phone number</span>
 							</p>		
 							<p>
 								<input type="text" name="contact_us_email" id="contact_us_email" placeholder="Email" size="30"/>
+								<span id="contactEmailError" style="display: none;">Please enter a valid email address</span>
 							</p>						
 							<p>
-								<textarea name="contact_us_message" id="contact_us_message" cols="32" rows="10" placeholder="Message"></textarea>
+								<textarea name="contact_us_message" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
 							</p>
 							<br>
-				  			<button><a href="#">Send</a></button>&nbsp;&nbsp;&nbsp;<button><a href="#">Cancel</a></button>	    	
-						</form>
+							<input type="button" value="Submit" name="Submit" id="call"/>
+							<div id="loadingct" class="contact_loading"></div>
+    							<div id="output"></div>
+				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->	    	
+						
+				</form> 
 					</div>
-				</div>		    	
+				</div>		
+				<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/mail-functions.js"></script>    	
 			    <div class="inner-sidebar-wrap">
 			      <div class="sidebar-ctn-wrap cnt-ctn-wrap">
 			        <div class="head">
@@ -408,4 +431,6 @@
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>		
 	</body>
+	
+	
 </html>
