@@ -124,9 +124,10 @@
 		<h2>
 			Market Data <span>Vendors</span>
 		</h2>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac
-			feugiat justo, quis condimentum leo. Ut nisl dui, interdum id libero
-			in, sodales lobortis risus. Ut in condimentum mauris. Etiam arcu.</p>
+		<p> FinvVendor provides an intuitive interface to search and select the market data vendors
+		 best suited for you needs, and a platform to interact and collaborate with them.
+		
+		</p>
 		<a href="#"><img
 			src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 			alt="" title="" class="read-more" /></a>
@@ -145,9 +146,8 @@
 		<h2>
 			Trading Application <span>Vendors</span>
 		</h2>
-		<p>Ut nisl dui, interdum id libero in, sodales lobortis risus. Ut
-			in condimentum mauris. Etiam arcu magna, vulputate porttitor nisl
-			non, ultrices porta felis. Phasellus venenatis justo quis dolor.</p>
+		<p>Finding the right application for your trading needs is no easy feat. FinVendor provides you a platform to 
+		filter various vendor solutions by specialities listed to a granular level. </p>
 		<a href="#"><img
 			src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 			alt="" title="" class="read-more" /></a>
@@ -166,9 +166,8 @@
 		<h2>
 			Financial Analytics <span>Vendors</span>
 		</h2>
-		<p>Etiam arcu magna, vulputate porttitor nisl non, ultrices porta
-			felis. Phasellus venenatis justo quis dolor euismod, quis ullamcorper
-			dui tincidunt. Lorem ipsum dolor sit amet.</p>
+		<p>In this competitive industry Analytics is the most sought after service for business and risk insights.
+		FinVendor helps you choose the right analytics vendor befitting your business.</p>
 		<a href="#"><img
 			src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 			alt="" title="" class="read-more" /></a>
@@ -187,9 +186,8 @@
 		<h2>
 			Financial Research <span>Report Vendors</span>
 		</h2>
-		<p>Phasellus venenatis justo quis dolor euismod, quis ullamcorper
-			dui tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing
-			elit. In ac feugiat justo, quis condimentum.</p>
+		<p>Be it macro economic analysis, Sector analysis or Analysis on Market pulse,a good research report is the key to a successful business.
+		And FinVendor can help you find the best research vendors. </p>
 		<a href="#"><img
 			src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 			alt="" title="" class="read-more" /></a>
@@ -199,47 +197,38 @@
 <div class="slider-home" id="slider-home">
 	<img src="<%=request.getContextPath()%>/resources/images/hear.png"
 		alt="" title="" class="slider-hr" />
-	<h2>Hear what people are saying about Fin Vendor</h2>
+	<h2>Interactive and Collaborative Services</h2>
 	<div class="slider2">
 		<div class="slide">
-			<p>orem ipsum dolor sit amet, consectetur adipiscing elit.
-				Integer eget cursus ipsum. Integer eu gravida erat, vel tempor diam.
-				Praesent elementum efficitur placerat. Vestibulum vel nunc eget leo
-				interdum fringilla quis id lorem. Nullam sollicitudin elit id ipsum
-				posuere rutrum. Quisque nec mauris odio. Quisque cursus, mauris vel
-				ornare suscipit, metus ante aliquet felis, vel rhoncus velit leo at
-				quam.</p>
-			<p class="signature">
-				<strong>Jith Puthoor</strong> <span>Lead Designer,
-					CreativeLeaves</span>
+		<p class="signature">
+				<strong>White papers</strong> <span>Informative, Inspective and Inspirational</span>
 			</p>
+			<br>
+			<p>An inventory of white papers on different topics in our industry, aimed 
+			to help to provide continued learning on current trends, innovative markets,
+			regulatory mandates and adherence etc.,</p>
+			
 		</div>
 		<div class="slide">
-			<p>orem ipsum dolor sit amet, consectetur adipiscing elit.
-				Integer eget cursus ipsum. Integer eu gravida erat, vel tempor diam.
-				Praesent elementum efficitur placerat. Vestibulum vel nunc eget leo
-				interdum fringilla quis id lorem. Nullam sollicitudin elit id ipsum
-				posuere rutrum. Quisque nec mauris odio. Quisque cursus, mauris vel
-				ornare suscipit, metus ante aliquet felis, vel rhoncus velit leo at
-				quam.</p>
-			<p class="signature">
-				<strong>Jith Puthoor</strong> <span>Lead Designer,
-					CreativeLeaves</span>
+		<p class="signature">
+				<strong>Spotlights</strong> <span> Insightful, Focused and Adaptive</span>
 			</p>
+			<br>
+			<p>Focus on emerging trends, success stories, user recommended research 
+			and highlights from across the industry to help our customers be updated on the current
+			industry spotlight </p>
+			
 		</div>
 		<div class="slide">
-			<p>orem ipsum dolor sit amet, consectetur adipiscing elit.
-				Integer eget cursus ipsum. Integer eu gravida erat, vel tempor diam.
-				Praesent elementum efficitur placerat. Vestibulum vel nunc eget leo
-				interdum fringilla quis id lorem. Nullam sollicitudin elit id ipsum
-				posuere rutrum. Quisque nec mauris odio. Quisque cursus, mauris vel
-				ornare suscipit, metus ante aliquet felis, vel rhoncus velit leo at
-				quam.</p>
-			<p class="signature">
-				<strong>Jith Puthoor</strong> <span>Lead Designer,
-					CreativeLeaves</span>
+		<p class="signature">
+				<strong>Case studies</strong> <span>Observe, Identify and Implement</span>
 			</p>
+			<br>
+			<p>Information on case studies conducted on various topics relevant to our industry aimed to provide insights
+			to our customers for them to identify similar circumstances and adopt the implementation if applicable.</p>
+			
 		</div>
+		
 	</div>
 </div>
-<div class="clearfix"></div>
+<div class="clearfix"></div> 
