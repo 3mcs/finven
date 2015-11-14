@@ -14,7 +14,7 @@
 		 </ul>
 		</div></div>
 		<br/>
-		Â© 2015 Fin Vendor. All rights reserved.
+		© 2015 Fin Vendor. All rights reserved.
 		<br/>
 		<div class="right_nav_area_2">
 			<div class="right_nav_2">
