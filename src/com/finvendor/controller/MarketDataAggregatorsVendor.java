@@ -12,7 +12,8 @@ import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.daoimpl.UserDAOImpl;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
@@ -47,7 +49,7 @@ import com.finvendor.util.RequestConstans;
 @Controller
 public class MarketDataAggregatorsVendor {
 
-	private static Logger logger = Logger.getLogger(MarketDataAggregatorsVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsVendor.class);
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
@@ -63,7 +65,7 @@ public class MarketDataAggregatorsVendor {
 	@RequestMapping(value=RequestConstans.MarketAggregators.MARKETAGGREGATORS, method=RequestMethod.GET)
 	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") Users users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
-			logger.info("Mehtod to navigate market data aggregators toregisterNavigation--:");
+			logger.debug("Entering MarketDataAggregatorsVendor : registerNavigation");
 			List<AssetClass> assetClasses = null;
 			List<Region> regions = null;
 			List<Country> countries = null;
@@ -74,11 +76,31 @@ public class MarketDataAggregatorsVendor {
 			ModelAndView modelAndView=new ModelAndView(RequestConstans.MarketAggregators.MARKETAGGREGATORS);
 			try{
 				if(request.getSession().getAttribute("loggedInUser") == null){
+					logger.error("No active session present. Redirecting to Home page");
 					return new ModelAndView(RequestConstans.Login.HOME);
 				}
-				username = CommonUtils.decrypt(username.getBytes());
 				
-				 String usernameCheck= SecurityContextHolder.getContext().
+				assetClasses = marketDataAggregatorsService.getAllAssetClass();
+				regions = marketDataAggregatorsService.getAllRegionClass();
+				countries = marketDataAggregatorsService.getAllCountries();
+				exchanges = marketDataAggregatorsService.getAllExchanges();
+				supports =  marketDataAggregatorsService.getAllVendorSupports();
+				costs  = marketDataAggregatorsService.getAllCostInfo();
+				awards = marketDataAggregatorsService.getAllAwards();
+				
+				modelAndView.addObject("assetClasses", assetClasses);
+				modelAndView.addObject("regions", regions);
+				modelAndView.addObject("regionslist", regions);
+				modelAndView.addObject("countries", countries);
+				modelAndView.addObject("exchanges", exchanges);
+				modelAndView.addObject("supports", supports);
+				modelAndView.addObject("costs", costs);
+				modelAndView.addObject("awards", awards);	
+				
+				modelAndView.addObject("username", username);
+				 
+				/*
+				String usernameCheck= SecurityContextHolder.getContext().
 						getAuthentication().getName(); 
 				 if(username.equals("")){
 					modelAndView.addObject("usernameCheck", usernameCheck);
@@ -105,11 +127,13 @@ public class MarketDataAggregatorsVendor {
 					modelAndView.addObject("username", username);
 					
 				 } 
+				 */
 			}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("Mehtod to navigate market data aggregators toregisterNavigation--" + e);
+				logger.error("Error MarketDataAggregatorsVendor : registerNavigation", e);
+				modelAndView.addObject("errorMessage", "Error reading MarketDataAggregatorsVendor details : " + e.getMessage());
 			}
-	   return modelAndView;
+			logger.debug("Leaving MarketDataAggregatorsVendor : registerNavigation");
+			return modelAndView;
 	}
 	
 	/**

@@ -7,7 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ import com.finvendor.util.RequestConstans;
 @Controller
 public class FinancialAnalyticsApplicationVendor {
 	
-	private static Logger logger = Logger.getLogger(FinancialAnalyticsApplicationVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(FinancialAnalyticsApplicationVendor.class);
 	
 	
 	@Autowired
@@ -53,7 +54,7 @@ public class FinancialAnalyticsApplicationVendor {
 	@RequestMapping(value=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE, method=RequestMethod.GET)
 	public ModelAndView financialAnalyticsApplicationIndex(HttpServletRequest request,@ModelAttribute("users") Users users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
-			logger.info("Mehtod to navigate trading application index page --:");
+			logger.debug("Entering FinancialAnalyticsApplication : financialAnalyticsApplicationIndex");
 			List<AssetClass> assetClasses = null;
 			List<Region> regions = null;
 			List<Country> countries = null;
@@ -66,6 +67,25 @@ public class FinancialAnalyticsApplicationVendor {
 				if(request.getSession().getAttribute("loggedInUser") == null){
 					return new ModelAndView(RequestConstans.Login.HOME);
 				}
+				
+				assetClasses = marketDataAggregatorsService.getAllAssetClass();
+				regions = marketDataAggregatorsService.getAllRegionClass();
+				countries = marketDataAggregatorsService.getAllCountries();
+				exchanges = marketDataAggregatorsService.getAllExchanges();
+				supports =  marketDataAggregatorsService.getAllVendorSupports();
+				costs  = marketDataAggregatorsService.getAllCostInfo();
+				awards = marketDataAggregatorsService.getAllAwards();
+				
+				modelAndView.addObject("assetClasses", assetClasses);
+				modelAndView.addObject("regions", regions);
+				modelAndView.addObject("regionslist", regions);
+				modelAndView.addObject("countries", countries);
+				modelAndView.addObject("exchanges", exchanges);
+				modelAndView.addObject("supports", supports);
+				modelAndView.addObject("costs", costs);
+				modelAndView.addObject("awards", awards);	
+				
+				/*
 				username = CommonUtils.decrypt(username.getBytes());
 				 String usernameCheck= SecurityContextHolder.getContext().
 						getAuthentication().getName(); 
@@ -93,11 +113,13 @@ public class FinancialAnalyticsApplicationVendor {
 					modelAndView.addObject("username", username);
 					
 				 } 
+				 */
 			}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("Mehtod to navigate trading application index page --:" + e);
+				logger.error("Error FinancialAnalyticsApplication : financialAnalyticsApplicationIndex", e);
+				modelAndView.addObject("errorMessage", "Error reading FinancialAnalyticsApplication details : " + e.getMessage());
 			}
-	   return modelAndView;
+			logger.debug("Leaving FinancialAnalyticsApplication : financialAnalyticsApplicationIndex");
+			return modelAndView;
 	}
 
 }
