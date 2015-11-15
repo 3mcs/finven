@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +36,7 @@ import com.finvendor.util.RequestConstans;
 @Controller
 public class TradingApplicationVendor {
 
-	private static Logger logger = Logger.getLogger(TradingApplicationVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(TradingApplicationVendor.class);
 	
 	
 	@Autowired
@@ -53,7 +53,7 @@ public class TradingApplicationVendor {
 	@RequestMapping(value=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE, method=RequestMethod.GET)
 	public ModelAndView tradingApplicationIndex(HttpServletRequest request,@ModelAttribute("users") Users users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
-			logger.info("Mehtod to navigate trading application index page --:");
+			logger.debug("Entering TradingApplicationVendor : tradingApplicationIndex");
 			List<AssetClass> assetClasses = null;
 			List<Region> regions = null;
 			List<Country> countries = null;
@@ -66,6 +66,24 @@ public class TradingApplicationVendor {
 				if(request.getSession().getAttribute("loggedInUser") == null){
 					return new ModelAndView(RequestConstans.Login.HOME);
 				}
+				
+				assetClasses = marketDataAggregatorsService.getAllAssetClass();
+				regions = marketDataAggregatorsService.getAllRegionClass();
+				countries = marketDataAggregatorsService.getAllCountries();
+				exchanges = marketDataAggregatorsService.getAllExchanges();
+				supports =  marketDataAggregatorsService.getAllVendorSupports();
+				costs  = marketDataAggregatorsService.getAllCostInfo();
+				awards = marketDataAggregatorsService.getAllAwards();				
+				modelAndView.addObject("assetClasses", assetClasses);
+				modelAndView.addObject("regions", regions);
+				modelAndView.addObject("regionslist", regions);
+				modelAndView.addObject("countries", countries);
+				modelAndView.addObject("exchanges", exchanges);
+				modelAndView.addObject("supports", supports);
+				modelAndView.addObject("costs", costs);
+				modelAndView.addObject("awards", awards);	
+				
+				/*
 				username = CommonUtils.decrypt(username.getBytes());
 				 String usernameCheck= SecurityContextHolder.getContext().
 						getAuthentication().getName(); 
@@ -93,11 +111,14 @@ public class TradingApplicationVendor {
 					modelAndView.addObject("username", username);
 					
 				 } 
+				 
+				 */
 			}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("Mehtod to navigate trading application index page --:" + e);
+				logger.error("Error TradingApplicationVendor : tradingApplicationIndex", e);
+				modelAndView.addObject("errorMessage", "Error reading TradingApplicationVendor details : " + e.getMessage());
 			}
-	   return modelAndView;
+			logger.debug("Leaving TradingApplicationVendor : tradingApplicationIndex");
+			return modelAndView;
 	}
 	
 }
