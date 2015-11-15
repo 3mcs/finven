@@ -145,16 +145,12 @@
 //});
 
 function loginSubmit(){
-	
 	/*contextPath*/
 	var username= $("#signin-username").val();
 	var password= $("#signin-password").val();
-	
 	/*var http = location.protocol;
 	var slashes = http.concat("//");
 	var urlPrefix = slashes.concat(window.location.host).concat("/");*/
-	
-	
 	if(username != '' && username.length > 0 && password != '' && password.length > 0 ){
 		username = encode64(username);
 		password = encode64(password);
