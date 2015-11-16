@@ -41,7 +41,8 @@
 					</p>
 
 					<p class="fieldset">
-						<input class="full-width" type="submit" value="Login" onclick="loginSubmit('${finVen:resolveContextPath(pageContext.request.contextPath)}');">
+						<input class="full-width" type="submit" value="Login" onclick="loginSubmit();">
+						<%-- '${finVen:resolveContextPath(pageContext.request.contextPath)}' --%>
 					</p>
 					<div><br></div>
 					</div>
