@@ -69,5 +69,7 @@ public interface UserService {
 	public Users getUserDetailsByUsername(String username);
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset);
 	public int updateUserAccountStatus(String username, boolean status);
-	
+	public String insertRegistrationVerificationRecord(String username, String email, boolean recreate);
+	public boolean updateUserVerificationStatus(String userName, String registrationId);
+	public String getRegistrationEmailForUsername(String username);
 }

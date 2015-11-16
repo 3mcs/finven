@@ -5,7 +5,6 @@ package com.finvendor.controller;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -13,7 +12,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +32,7 @@ import com.finvendor.service.ConsumerService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
+import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 
 /**
@@ -41,7 +42,7 @@ import com.finvendor.util.RequestConstans;
 @Controller
 public class RegistrationController {
 
-	private static Logger logger = Logger.getLogger(RegistrationController.class);
+	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 	
 	String[] vendorTypes = {"Financial Vendor- Data Aggregators", "Financial Vendor- Trading Applications","Financial Vendor- Financial Analytics applications","Financial Vendor- Research report"};
 	String[] consumerTypes = {"Financial Firm - Sell side", "Financial Firm - Buy side","Financial Firm - Others","University/College","Other firm"};
@@ -307,9 +308,11 @@ public class RegistrationController {
 			modelAndView=new ModelAndView(RequestConstans.Register.EMPTY);
 			users.setUserName(uname.toLowerCase());
 			users.setPassword(encoder.encode(password));
-			users.setEnabled(true);
+			users.setEnabled(false);
+			users.setVerified("N");
 			users.setRegistration_date(new Timestamp(System.currentTimeMillis()));
 			userService.saveUserInfo(users);
+			String registrationId = userService.insertRegistrationVerificationRecord(users.getUserName(), email, false);
 			// Vendor information Registration
 			if (Arrays.asList(vendorTypes).contains(companytype)) {
 				roles.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
@@ -351,12 +354,73 @@ public class RegistrationController {
 				consumerService.saveConsumerInfo(consumer);
 				modelAndView.addObject("status", true);
 			}
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendRegistartionEmail(users, email.toLowerCase(), registrationId);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error saving vendor inforamtion--"+ e);
 			modelAndView.addObject("status", status);
 		}
 				
+		return modelAndView;
+	}
+	
+	
+	@RequestMapping(value="validateRegistrationEmail", method=RequestMethod.GET)
+	public ModelAndView validateRegistrationEmail(HttpServletRequest request,
+			@RequestParam(value = "param", required = true) String regId){
+		logger.debug("Entering RegistrationController:validateRegistrationEmail for {}", regId);
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
+		boolean userVerified = false;
+		try{
+			String[] paramArray = regId.split("@");
+			String registrationId = paramArray[0];
+			String username = paramArray[1];
+			logger.debug("RegistrationController:validateRegistrationEmail : registrationId = {}", registrationId);
+			logger.debug("RegistrationController:validateRegistrationEmail : username = {}", username);
+			modelAndView.addObject("username", username);
+			userVerified = userService.updateUserVerificationStatus(username, registrationId);
+			if(!userVerified){
+				logger.error("Error validating registrationId {}", registrationId);
+				userVerified = userService.validateUsername(username);
+				if(userVerified){
+					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>Validation link may have been expired");
+					modelAndView.addObject("linkExpired", true);
+					String email = userService.getRegistrationEmailForUsername(username);
+					logger.debug("RegistrationController:validateRegistrationEmail : email = {}", email);
+					modelAndView.addObject("registrationEmail", email);
+				}else{
+					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>User Id " + username + " is not available.");	
+				}
+			}
+			
+		}catch (Exception exp) {
+			logger.error("Error validating User Registration", exp);
+			modelAndView.addObject("errorMessage", "Error validation registration Id : " + exp.getMessage());	
+		}
+		logger.debug("Leaving RegistrationController:validateRegistrationEmail for {}", regId);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="resendRegistrationLink", method=RequestMethod.GET)
+	public ModelAndView resendRegistrationLink(HttpServletRequest request,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "email", required = true) String email){
+		logger.debug("Entering RegistrationController:resendRegistrationLink for {}", username);
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
+		try{			
+			Users user = userService.getUserDetailsByUsername(username);
+			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), email, true);
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+			modelAndView.addObject("resendRegistrationLink", "success");	
+		}catch (Exception exp) {
+			logger.error("Error Resending User Registration link", exp);
+			modelAndView.addObject("errorMessage", "Error Resending User Registration link : " + exp.getMessage());	
+			modelAndView.addObject("resendRegistrationLink", "error");
+		}
+		logger.debug("Leaving RegistrationController:resendRegistrationLink for {}", username);
 		return modelAndView;
 	}
 	

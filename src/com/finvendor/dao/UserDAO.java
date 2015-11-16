@@ -69,5 +69,10 @@ public interface UserDAO {
 	
 	public int updateUserAccountStatus(String username, boolean status);
 	
+	public void insertRegistrationVerificationRecord(String username, String email, String registration_id, boolean recreate);
+	
+	public int updateUserVerificationStatus(String username, String registration_id);
+	
+	public String getRegistrationEmailForUsername(String username);
 	
 }

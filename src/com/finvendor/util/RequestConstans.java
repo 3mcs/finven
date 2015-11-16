@@ -73,6 +73,8 @@ public class RequestConstans {
 		public static final String PHONE_NUMBER_VALIDATION = "phoneNumValidation";
 		public static final String COMPANY_URL_VALIDATION = "validateCompanyURL";
 		public static final String COMPANY_DESIGNATION= "validateDesignation";
+		
+		public static final String USER_VERIFICATION_PAGE="verifyUser";
 	}
 	
 	public interface MarketAggregators{

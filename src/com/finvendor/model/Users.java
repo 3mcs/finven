@@ -47,6 +47,9 @@ public class Users implements Serializable{
 	@Column(name="REGISTRATION_DATE")
 	private Timestamp registration_date;
 	
+	@Column(name="VERIFIED")
+	private String verified;
+		
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="users")
 	private Set<UserRole> userRoles=new HashSet<UserRole>();
 	
@@ -148,6 +151,13 @@ public class Users implements Serializable{
 		this.registration_date = registration_date;
 	}
 
-	
+	public String getVerified() {
+		return verified;
+	}
+
+	public void setVerified(String verified) {
+		this.verified = verified;
+	}
+
 }
 

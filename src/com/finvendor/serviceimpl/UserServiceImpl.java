@@ -4,6 +4,7 @@
 package com.finvendor.serviceimpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.finvendor.dao.UserDAO;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Users;
 import com.finvendor.service.UserService;
+import com.finvendor.util.CommonUtils;
 
 /**
  * @author rayulu vemula
@@ -107,6 +109,31 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public int updateUserAccountStatus(String username, boolean status){
 		return userDAO.updateUserAccountStatus(username, status);
+	}
+	
+	@Override
+	@Transactional
+	public String insertRegistrationVerificationRecord(String username, String email, boolean recreate){
+		String registration_id = UUID.randomUUID().toString();
+		userDAO.insertRegistrationVerificationRecord(username, email, registration_id, recreate);
+		return registration_id;
+	}
+	
+	@Override
+	@Transactional
+	public boolean updateUserVerificationStatus(String userName, String registrationId){
+		int updatedRows = userDAO.updateUserVerificationStatus(userName, registrationId);
+		if(updatedRows == 0) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	@Override
+	@Transactional
+	public String getRegistrationEmailForUsername(String username){
+		return userDAO.getRegistrationEmailForUsername(username);
 	}
 	
 }
