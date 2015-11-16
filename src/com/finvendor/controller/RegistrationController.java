@@ -62,8 +62,7 @@ public class RegistrationController {
 	 * @return modelAndView
 	 * @throws Exception
 	 *             the exception
-	 */
-	
+	 */	
 	@RequestMapping(value=RequestConstans.Register.REGISTER, method=RequestMethod.GET)
 	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") Users users){
 		logger.info("Mehtod for toregisterNavigation--:");

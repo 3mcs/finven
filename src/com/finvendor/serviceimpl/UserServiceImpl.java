@@ -14,7 +14,6 @@ import com.finvendor.dao.UserDAO;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Users;
 import com.finvendor.service.UserService;
-import com.finvendor.util.CommonUtils;
 
 /**
  * @author rayulu vemula

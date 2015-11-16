@@ -56,7 +56,6 @@ public class Users implements Serializable{
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="users")
 	private Set<Vendor> vendor=new HashSet<Vendor>();
 	 
- 
 	/**
 	 * @return the userName
 	 */

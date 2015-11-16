@@ -5,7 +5,6 @@ package com.finvendor.daoimpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -28,7 +27,7 @@ public class UserDAOImpl implements UserDAO{
 
 	
 	private static Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
-	private static final int REGISTRATION_LINK_EXPIRY = 48;
+	public static final int REGISTRATION_LINK_EXPIRY = 48;
 	
 	private static final String SEL_USER_DETAILS_FROM_USERNAME = "SELECT username, password, enabled, last_login, login_attempts, registration_date, verified FROM users WHERE username = :username";
 	private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
