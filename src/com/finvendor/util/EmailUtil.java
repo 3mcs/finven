@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.finvendor.daoimpl.UserDAOImpl;
 import com.finvendor.model.Users;
 
 public class EmailUtil {
@@ -27,8 +28,8 @@ public class EmailUtil {
 	}
 	public static final String EMAIL_USERNAME = "finvendo";
 	public static final String EMAIL_PASSWORD = "amit_mv";
-	//public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
-	public static final String REGISTRATION_LINK = "http://localhost:8080/validateRegistrationEmail";
+	public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
+	//public static final String REGISTRATION_LINK = "http://localhost:8080/validateRegistrationEmail";
 	public static final String FROM_EMAIL = "sales@finvendor.com";
 	
 	public static void main(){
@@ -55,7 +56,7 @@ public class EmailUtil {
 		content.append("@");
 		content.append(user.getUserName());
 		content.append("\n\n");
-		content.append("Please note that link will expire in 24 Hours");
+		content.append("Please note that link will expire in " + UserDAOImpl.REGISTRATION_LINK_EXPIRY + " Hours");
 		message.setText(content.toString());
 		Transport.send(message);
 		logger.debug("Leaving EmailUtil:sendRegistartionEmail for {}", emailId);
