@@ -573,11 +573,11 @@ xsigin/signup popup
   }
 }
 
-#cd-login, #cd-signup, #cd-reset-password {
+#cd-login, #cd-signup, #cd-reset-password, #cd-reg-success-message {
   display: none;
 }
 
- #cd-signup.is-selected, #cd-reset-password.is-selected {
+ #cd-signup.is-selected, #cd-reset-password.is-selected, #cd-reg-success-message.is-selected {
   display: block;
   padding: 12px 3px 3px 1px;
 }

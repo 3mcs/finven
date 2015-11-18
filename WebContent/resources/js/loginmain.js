@@ -8,8 +8,9 @@
 		$tab_signup = $form_modal_tab.children('li').eq(1).children('a'),
 		$forgot_password_link = $form_login.find('.cd-form-bottom-message a'),
 		$back_to_login_link = $form_forgot_password.find('.cd-form-bottom-message a'),
+		$form_reg_success = $form_modal.find('#cd-reg-success-message'),
 		$main_nav = $('.hd-right');
-
+		
 	/*$form_modal.addClass('is-visible');	
 	$form_login.addClass('is-selected');
 	$tab_login.addClass('selected');
@@ -90,6 +91,7 @@
 		$form_login.addClass('is-selected');
 		$form_signup.removeClass('is-selected');
 		$form_forgot_password.removeClass('is-selected');
+		$form_reg_success.removeClass('is-selected');
 		$tab_login.addClass('selected');
 		$tab_signup.removeClass('selected');
 	}
@@ -98,6 +100,7 @@
 		$form_login.removeClass('is-selected');
 		$form_signup.addClass('is-selected');
 		$form_forgot_password.removeClass('is-selected');
+		$form_reg_success.removeClass('is-selected');
 		$tab_login.removeClass('selected');
 		$tab_signup.addClass('selected');
 	}
@@ -105,8 +108,17 @@
 	function forgot_password_selected(){
 		$form_login.removeClass('is-selected');
 		$form_signup.removeClass('is-selected');
+		$form_reg_success.removeClass('is-selected');
 		$form_forgot_password.addClass('is-selected');
 	}
+	
+	function reg_success_message_selected(){
+		$form_login.removeClass('is-selected');
+		$form_signup.removeClass('is-selected');
+		$form_reg_success.addClass('is-selected');
+		$form_forgot_password.removeClass('is-selected');
+	}
+	
 
 	//REMOVE THIS - it's just to show error messages 
 	$form_login.find('input[type="submit"]').on('click', function(event){

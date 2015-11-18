@@ -184,6 +184,15 @@
 				</form>
 				<p class="cd-form-bottom-message"><a href="#0" style="color: black;">Back to log-in</a></p>
 			</div> <!-- cd-reset-password -->
+			<div id="cd-reg-success-message">
+				<p class="cd-form-message">
+					You have successfully registered on FinVendor<br>
+					You will shortly receive a validation link in registered email id.<br>
+					Please verify email account with validation link to activate your account
+				</p>
+				<div><br></div>
+				<div><br></div>
+			</div>
 			<a href="#0" class="cd-close-form">Close</a>
 			
 		</div> <!-- cd-user-modal-container -->

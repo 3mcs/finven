@@ -334,8 +334,9 @@ function userRegisteration(){
 					if (output.match("true")) {
 						document.getElementById("errMessageforMandatory").innerHTML = " ";
 						document.getElementById("sucessMessage").innerHTML = "You've registered successfully..!";
-						 document.getElementById("cd-login").style.display="block";
-						document.getElementById("cd-signup").style.display="none"; 
+						//document.getElementById("cd-login").style.display="block";
+						//document.getElementById("cd-signup").style.display="none"; 
+						reg_success_message_selected();
 					} else {
 						document.getElementById("sucessMessage").innerHTML = " ";
 						document.getElementById("errMessageforMandatory").innerHTML = " ";
