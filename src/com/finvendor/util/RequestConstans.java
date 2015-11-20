@@ -42,6 +42,7 @@ public class RequestConstans {
 		public static final String LOGIN="login";
 		public static final String LOGOUT="logout";
 		public static final String MY_HOME_PAGE="myhomepage";
+		public static final String MY_VIEW_PAGE="myViewpage";
 		public static final String LOGINVALIDATION="checkUserLoginValidation";
 		public static final String WELCOME="welcometodashboards";
 		public static final String ADMIN_INFO="admin";
@@ -51,6 +52,9 @@ public class RequestConstans {
 		public static final String HOME = "index";
 		public static final String FORGET="forget";
 		public static final String RESET_PASSWORD="resetPassword";
+		public static final String SITE_MAP="sitemap";
+		public static final String PRIVACY="privacy";
+		public static final String DISCLAIMER="disclaimer";
 	}
 	
 	public interface Roles{
