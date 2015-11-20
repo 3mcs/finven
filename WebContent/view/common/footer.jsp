@@ -39,7 +39,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.tabs.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.bxslider.js"></script>
-	
 	<script src="${pageContext.request.contextPath}/resources/js/userregister.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
 	<script type="text/javascript">
