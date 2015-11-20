@@ -303,6 +303,32 @@ public class LoginController {
  
 	}
 	
+	
+	/**
+	 * method for my home
+	 * 
+	 * @return modelAndView
+	 * @throws Exception
+	 *             the exception
+	 */
+	
+	@RequestMapping(value=RequestConstans.Login.MY_VIEW_PAGE, method = RequestMethod.GET)
+	public ModelAndView myViewPage(@RequestParam("RaYUnA") String username) {
+		logger.info("Method for logout 9---:");
+		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView  modelAndView= null;
+		try{
+			username = CommonUtils.decrypt(username.getBytes());
+			modelAndView=new ModelAndView(RequestConstans.Login.HOME);
+			modelAndView.addObject("myusername", username);
+		}catch(Exception exception){
+			exception.printStackTrace();
+		}
+        
+		return modelAndView;
+ 
+	}
+	
 	/**
 	 * method to navigate forget password
 	 * 
@@ -312,7 +338,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value =RequestConstans.Login.FORGET, method=RequestMethod.GET)
     public ModelAndView forgetPassword() {
-		logger.info("Method forget password page 9---:");
+		logger.info("Method forget password page 10---:");
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
          return modelAndView;
      }
@@ -326,7 +352,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value =RequestConstans.Login.RESET_PASSWORD, method=RequestMethod.GET)
     public ModelAndView resetForgetPassword(@RequestParam("email") String email) {
-		logger.info("Method to reset forget password 10---:");
+		logger.info("Method to reset forget password 11---:");
 		Users users=null;
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
        try{
@@ -340,4 +366,46 @@ public class LoginController {
          return modelAndView;
      }
 	
+	/**
+	 * method to navigate site map
+	 * 
+	 * @return modelAndView
+	 * @throws Exception
+	 *             the exception
+	 */
+	@RequestMapping(value =RequestConstans.Login.SITE_MAP, method=RequestMethod.GET)
+    public ModelAndView siteMap() {
+		logger.info("Method forget password page 12---:");
+        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.SITE_MAP);
+         return modelAndView;
+     }
+	
+
+	/**
+	 * method to navigate privacy
+	 * 
+	 * @return modelAndView
+	 * @throws Exception
+	 *             the exception
+	 */
+	@RequestMapping(value =RequestConstans.Login.PRIVACY, method=RequestMethod.GET)
+    public ModelAndView Privacy() {
+		logger.info("Method forget password page 13---:");
+        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.PRIVACY);
+         return modelAndView;
+     }
+
+	 /**
+	 * method to navigate disclaimer
+	 * 
+	 * @return modelAndView
+	 * @throws Exception
+	 *             the exception
+	 */ 
+	@RequestMapping(value =RequestConstans.Login.DISCLAIMER, method=RequestMethod.GET)
+    public ModelAndView Disclaimer() {
+		logger.info("Method forget password page 14---:");
+        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.DISCLAIMER);
+         return modelAndView;
+     } 
 }
