@@ -461,6 +461,13 @@ body {
 	width: 710px;
 }
 
+.left-content {
+	float: left;
+	width: 710px;
+	font-family:open_sansregular;
+	font-style: normal;
+}
+
 .inner-left-wrap h1 {
 	color: #2AABAB;
 	font-size: 29px;
@@ -480,10 +487,6 @@ body {
 	padding: 10px 0 0 0;
 	font-size: 13px;
 	line-height: 20px;
-}
-
-.inner-left-wrap p b {
-	
 }
 
 .inner-sidebar-wrap {
@@ -1438,6 +1441,5 @@ img {
         .tab.active {
             display:block;
         }
-        
-      
+           
 /* tabs css ends here */
