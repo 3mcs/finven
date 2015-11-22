@@ -16,7 +16,7 @@
 				<c:when test="${not empty username || not empty myusername}"></c:when>
 				<c:otherwise>
 				  	<img src="${pageContext.request.contextPath}/resources/images/fn.png" alt="" title=""/><i>FINANCIAL VENDOR?</i> 
-					<a class="cd-signin" href="${pageContext.request.contextPath}/#0">LIST YOUR OFFERINGS</a>
+					<a class="cd-signup" href="#">LIST YOUR OFFERINGS</a>
 				</c:otherwise>
 			</c:choose>
 		</p>

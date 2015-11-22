@@ -16,9 +16,10 @@
 	$tab_login.addClass('selected');
 	document.getElementById("nav-srch").style.display="none";*/
 	
-	
 	//open modal
-	$main_nav.on('click', function(event){
+	$('.hd-right a').on('click', function(event){
+		if($(this).text() == 'CONTACT') 
+			return;
 		if( $(event.target).is($main_nav) ) {
 			// on mobile open the submenu
 			$(this).children('ul').toggleClass('is-visible');
@@ -157,18 +158,17 @@
 //});
 
 function loginSubmit(){
-	/*contextPath*/
 	var username= $("#signin-username").val();
 	var password= $("#signin-password").val();
-	/*var http = location.protocol;
+	var http = location.protocol;
 	var slashes = http.concat("//");
-	var urlPrefix = slashes.concat(window.location.host).concat("/");*/
+	var urlPrefix = slashes.concat(window.location.host).concat("/");
 	if(username != '' && username.length > 0 && password != '' && password.length > 0 ){
 		username = encode64(username);
 		password = encode64(password);
 		$.ajax({
 			type: 'POST',
-			url:"checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
+			url:urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
 			cache: false,
 			success: function(output) {
 				if (output.match("false")) {	
