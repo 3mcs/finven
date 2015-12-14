@@ -248,6 +248,8 @@ function validateCompanyURL() {
 	}
 	
 }
+
+/*
 function validatePhoneNumber() {
 	var phoneNum = document.getElementById("personalvenphonenumber").value;
 	var numericReg = /^([0-9]{8,10})$/;
@@ -281,6 +283,8 @@ function validatePhoneNumberCode() {
 		return;
     }
 }
+*/
+/*
 function validateDesignation() {
 	var designation = document.getElementById("personalvendesignation").value;
 	var regex = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
@@ -304,53 +308,44 @@ function validateDesignation() {
 				}
 			}
 		});*/
-	}
+/*	}
 	
 }
+*/
 
-
-function userRegisteration(){
-	var username= $("#signup-username").val();
-	var password= $("#signup-password").val();
-	var email= $("#signup-email").val();
-	var company= $("#signup-company").val();
-	var companytype= $("#signup-companytype").val();
-	var tags= $("#sigup-tags").val();
-	var termsandcondition=document.getElementById('accept-terms').value;
+function userRegisteration() {
 	
-	if(username != '' && username.length > 0 && password != '' && password.length > 0  && email != '' &&  email.length > 0
-			&& company != '' && company.length > 0 && companytype != '' && companytype.length > 0 &&  tags != '' && tags.length > 0 ) {
-		if(termsandcondition != '' && document.getElementById('accept-terms').checked == true && termsandcondition.match('acceptterms')){
-			username = encode64(username);
-			password = encode64(password);
-			email = encode64(email);
-			document.getElementById("errMessageforMandatory").innerHTML = "";
-			document.getElementById("errMessagefortermsandconditions").innerHTML = "";
-			$.ajax({
-				type: 'POST',
-				url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
-				cache: false,
-				success: function(output) {
-					if (output.match("true")) {
-						document.getElementById("errMessageforMandatory").innerHTML = " ";
-						document.getElementById("sucessMessage").innerHTML = "You've registered successfully..!";
-						//document.getElementById("cd-login").style.display="block";
-						//document.getElementById("cd-signup").style.display="none"; 
-						reg_success_message_selected();
-					} else {
-						document.getElementById("sucessMessage").innerHTML = " ";
-						document.getElementById("errMessageforMandatory").innerHTML = " ";
-					}
-				}
-			});
-		}else{
-			document.getElementById("errMessageforMandatory").innerHTML = "";
-			document.getElementById("errMessagefortermsandconditions").innerHTML = "Please accept the terms and conditions.";
-		}
-	}else{
-		document.getElementById("errMessageforMandatory").innerHTML = "Please enter all the fields are mandatory.";
+	var username = $("#signup-username").val();
+	var password = $("#signup-password").val();
+	var email = $("#signup-email").val();
+	var company = $("#signup-company").val();
+	var companytype = $("#signup-companytype").val();
+	var tags = $("#sigup-tags").val();
+	var termsAndCondition = document.getElementById('accept-terms').value;
 		
-	}
-	
+	if(termsAndCondition != null && termsAndCondition != '' && 
+			document.getElementById('accept-terms').checked == true && 
+			termsAndCondition.match('acceptterms')) {
+		username = encode64(username);
+		password = encode64(password);
+		email = encode64(email);
+		document.getElementById("errMessageForTermsAndConditions").innerHTML = '' ;
+		document.getElementById("errorMessage").innerHTML = '' ;
+		$.ajax({
+			type: 'POST',
+			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
+			cache: false,
+			success: function(output) {
+				if (output.match("true")) {
+					document.getElementById("sucessMessage").innerHTML = "You've registered successfully..!";
+					reg_success_message_selected();
+				}else {
+					document.getElementById("sucessMessage").innerHTML = '';
+					document.getElementById("errorMessage").innerHTML = "Error registering user. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>";
+				}
+			}
+		});
+	}else {
+		document.getElementById("errMessageForTermsAndConditions").innerHTML = "Please accept the terms and conditions";
+	}	
 }
-

@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.finvendor.dao.LoginDAO;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.LoginService;
 
 /**
@@ -25,9 +25,9 @@ public class LoginServiceImpl implements LoginService{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.LoginServiceImpl#getUserInfoByEmail(com.finvendor.model.Users)
+	 * @see com.finvendor.dao.LoginServiceImpl#getUserInfoByEmail(com.finvendor.model.FinVendorUser)
 	 */
-	public Users getUserInfoByEmail(String email) {
+	public FinVendorUser getUserInfoByEmail(String email) {
 		logger.info("getUserInfoByEmail Method....");
 		return loginDAO.getUserInfoByEmail(email);
 	}

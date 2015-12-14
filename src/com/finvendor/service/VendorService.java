@@ -65,7 +65,7 @@ public interface VendorService {
 	 * @param username
 	 * @return 
 	 */
-	Vendor getVendorDetails(String username);
+	//Vendor getVendorDetails(String username);
 
 	/** --------------------------------------------------------------------- */
 	/**

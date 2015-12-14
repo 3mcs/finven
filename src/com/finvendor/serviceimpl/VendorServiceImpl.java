@@ -79,11 +79,11 @@ public class VendorServiceImpl implements VendorService{
 	 * 
 	 * @see com.finvendor.dao.VendorServiceImpl#getVendorDetails(com.finvendor.model.Vendor)
 	 */
-	@Override
+	/*@Override
 	public Vendor getVendorDetails(String appUser) {
 		logger.info("getVendorDetails method---:");
 		return vendorDAO.getVendorDetails(appUser);
-	}
+	}*/
 
 	/** --------------------------------------------------------------------- */
 	/**

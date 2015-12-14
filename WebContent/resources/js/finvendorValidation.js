@@ -1,22 +1,39 @@
-function validateNotNull(element, errorLabelId){
-	if (element.value == null || element.value == '' || $.trim(element.value) == ''){
+function validateNotNull(element, errorLabelId) {
+	if (element.value == null || element.value == '' || $.trim(element.value) == '') {
 		document.getElementById(errorLabelId).innerHTML = element.placeholder + ' cannot be blank';
 		return false;
-	}else{
+	}else {
+		document.getElementById(errorLabelId).innerHTML = '';
+		return true;
+	}
+}
+
+function validateSelectNotNull(selectId, errorLabelId, placeholder) {	
+	var selector = '#' + selectId + ' :selected';
+	var selectedElementValue = null;
+	$(selector).each(function(i, selectedElement) {
+		selectedElementValue = $(selectedElement).val();
+		return returnValue = false;
+	});
+	
+	if (selectedElementValue == null) {
+		document.getElementById(errorLabelId).innerHTML = placeholder + ' cannot be blank';
+		return false;
+	}else {
 		document.getElementById(errorLabelId).innerHTML = '';
 		return true;
 	}
 }
 
 function validateWithRegularExpression(element, errorLabelId, regularExpression, validationMessageKey, nullValidation) {
-	if(nullValidation && !validateNotNull(element, errorLabelId)){
+	if(nullValidation && !validateNotNull(element, errorLabelId)) {
 		return false;
 	}
-	if(!nullValidation && !validateNotNull(element, errorLabelId)){
+	if(!nullValidation && !validateNotNull(element, errorLabelId)) {
 		document.getElementById(errorLabelId).innerHTML = '';
 		return true;
 	}
-	if(!regularExpression.test($.trim(element.value))){
+	if(!regularExpression.test($.trim(element.value))) {
 		 document.getElementById(errorLabelId).innerHTML = validationMessageMap[validationMessageKey];
 		 return false;
 	 }else{
@@ -25,7 +42,7 @@ function validateWithRegularExpression(element, errorLabelId, regularExpression,
 	 }
 }
 
-function validateAjax(element, ajaxUrl, errorLabelId){
+function validateAjax(element, ajaxUrl, errorLabelId) {
 	var url = ajaxUrl + "?param="+ $.trim(element.value);
 	$.ajax({
 		type: 'POST',
@@ -37,33 +54,33 @@ function validateAjax(element, ajaxUrl, errorLabelId){
 	});
 }
 
-function validateSpanElements(spanName){
+function validateSpanElements(spanName) {
 	var selector = '#' + spanName + ' label.errorMessage';
 	var returnValue = null;
 	$(selector).each(function(index){
-		if($(this).html() != null && $(this).html() != ''){
+		if($(this).html() != null && $(this).html() != '') {
 			alert("Please remove all validation errors");
 			return returnValue = false;
 		}
 	} );
-	if(returnValue != null){
+	if(returnValue != null) {
 		return false;
 	}
 	returnValue = null;
 	selector = '#' + spanName + ' input[data-mandatory="Y"]';
 	$(selector).each(function(index){
-		if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == ''){
+		if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == '') {
 			alert("Please enter all mandatory fields");
 			$(this).focus();
 			return returnValue = false;
 		}
 	} );
-	if(returnValue != null){
+	if(returnValue != null) {
 		return false;
 	}
 	selector = '#' + spanName + ' textarea[data-mandatory="Y"]';
-	$(selector).each(function(index){
-		if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == ''){
+	$(selector).each(function(index) {
+		if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == '') {
 			alert("Please enter all mandatory fields");
 			$(this).focus();
 			return returnValue = false;
@@ -74,12 +91,41 @@ function validateSpanElements(spanName){
 	}
 	selector = '#' + spanName + ' select[data-mandatory="Y"]';
 	$(selector).each(function(index){
-		if($(this).val().toUpperCase() == '-SELECT-' || $(this).val().toUpperCase() == 'SELECT'){
+		if($(this).val().toUpperCase() == '-SELECT-' || $(this).val().toUpperCase() == 'SELECT') {
 			alert("Please enter all mandatory fields");
 			$(this).focus();
-			return false;
+			return returnValue = false;
 		}
 	} );
+	if(returnValue != null){
+		return false;
+	}
+	selector = '#' + spanName + ' select[multi-data-mandatory="Y"] :selected';
+	$(selector).each(function(index, selectedElement) {
+		value = $(selectedElement).val();
+		value = value + "";
+		if(value.substr(0, 8).toUpperCase() == '-SELECT-' || value.substr(0, 6).toUpperCase() == 'SELECT') {
+			alert("Please enter all mandatory fields");
+			$(this).focus();
+			return returnValue = false;
+		}
+	} );
+	if(returnValue != null){
+		return false;
+	}
+	return true;
+}
+
+function validatePersonalEmailId(element, errorLabelId) {
+	var emailId = $.trim(element.value)
+	var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn'];
+	for (i = 0; i < validationList.length; i++) {
+	    if(emailId.indexOf(validationList[i]) != -1) {
+	    	document.getElementById(errorLabelId).innerHTML = 'Please enter valid Company Email id';
+	    	return false;
+	    }
+	}
+	return true;
 }
 
 var validationMessageMap = {

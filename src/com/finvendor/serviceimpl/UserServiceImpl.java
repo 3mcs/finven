@@ -6,13 +6,15 @@ package com.finvendor.serviceimpl;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.UserDAO;
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
-import com.finvendor.model.Users;
 import com.finvendor.service.UserService;
 
 /**
@@ -21,45 +23,21 @@ import com.finvendor.service.UserService;
  */
 public class UserServiceImpl implements UserService{
 	
-	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserDAO userDAO;
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserServiceImpl#saveUserInfo(com.finvendor.model.Users)
-	 */
 	@Override
-	public void saveUserInfo(Users users) {
-		logger.info("saveUserInfo Method....");
-		 userDAO.saveUserInfo(users);
+	@Transactional
+	public void saveUserInfo(FinVendorUser user) {
+		userDAO.saveUserInfo(user);
 	}
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserServiceImpl#saveUserRolesInfo(com.finvendor.model.UserRole)
-	 */
 	@Override
 	public void saveUserRolesInfo(UserRole userRole) {
 			logger.info("saveUserRolesInfo Method....");
 			userDAO.saveUserRolesInfo(userRole);	
-	}
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserServiceImpl#validateUsername(com.finvendor.model.Users)
-	 */
-	@Override
-	public boolean validateUsername(String username) {
-		logger.info("validateUsername Method....");
-		return userDAO.validateUsername(username);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -80,20 +58,27 @@ public class UserServiceImpl implements UserService{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.UserServiceImpl#getUsersInfoByNamewithPassword(com.finvendor.model.Users)
+	 * @see com.finvendor.dao.UserServiceImpl#getUsersInfoByNamewithPassword(com.finvendor.model.FinVendorUser)
 	 */
 	@Override
-	public List<Users> getUserInfoByNamewithPassword(String username,
+	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
 			String password) {
 		logger.info("getUsersInfoByNamewithPassword Method....");
 		return userDAO.getUserInfoByNamewithPassword(username,password);
 	}
 	
 	@Override
-	@Transactional
-	public Users getUserDetailsByUsername(String username){
+	@Transactional(readOnly=true)
+	public boolean validateUsername(String username) throws ApplicationException {
+		logger.debug("UserServiceImpl : validateUsername - {}", username);
+		return userDAO.validateUsername(username.toLowerCase());
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
 		logger.debug("Entering : UserServiceImpl.getUserDetailsByUsername");
-		Users user = userDAO.getUserDetailsByUsername(username);
+		FinVendorUser user = userDAO.getUserDetailsByUsername(username);
 		logger.debug("Leaving : UserServiceImpl.getUserDetailsByUsername");
 		return user;
 	}
@@ -112,9 +97,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Transactional
-	public String insertRegistrationVerificationRecord(String username, String email, boolean recreate){
+	public String insertRegistrationVerificationRecord(String username, boolean recreate){
 		String registration_id = UUID.randomUUID().toString();
-		userDAO.insertRegistrationVerificationRecord(username, email, registration_id, recreate);
+		userDAO.insertRegistrationVerificationRecord(username, registration_id, recreate);
 		return registration_id;
 	}
 	
@@ -130,9 +115,9 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	@Transactional
-	public String getRegistrationEmailForUsername(String username){
-		return userDAO.getRegistrationEmailForUsername(username);
+	@Transactional(readOnly=true)
+	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException {
+		return userDAO.getUserDetailsByEmailId(email);
 	}
 	
 }

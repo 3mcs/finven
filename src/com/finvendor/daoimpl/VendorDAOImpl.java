@@ -92,8 +92,8 @@ public class VendorDAOImpl implements VendorDAO{
 		String sqlQuery = null;
 		Query query = null;
 		try{
-			sqlQuery = " update vendor set fname='"+ vendor.getFirstName() +"', lname='"+vendor.getLastName()+"', designation='"+vendor.getDesignation()+"',company='"+vendor.getCompany()+"',email='"+vendor.getEmail()+"', secondary_email='"+vendor.getSecondary_email()+"'," +
-					" telephone='"+vendor.getTelephone()+"',company_url='"+vendor.getCompany_url()+"',company_info='"+vendor.getCompany_info()+"', regionofincorp='"+vendor.getRegionofincorp()+"', " +
+			sqlQuery = " update vendor set fname='"+ vendor.getFirstName() +"', lname='"+vendor.getLastName()+"', designation='"+vendor.getDesignation()+"',company='"+vendor.getCompany()+"', secondary_email='"+vendor.getSecondaryEmail()+"'," +
+					" telephone='"+vendor.getTelephone()+"',company_url='"+vendor.getCompanyUrl()+"',company_info='"+vendor.getCompanyInfo()+"', regionofincorp='"+vendor.getRegionofincorp()+"', " +
 							"countryofincorp='"+vendor.getCountryofincorp()+"' where username= '"+username+"'   " ;
 			query= this.sessionFactory.getCurrentSession().createSQLQuery(sqlQuery);
 			query.executeUpdate();
@@ -109,6 +109,7 @@ public class VendorDAOImpl implements VendorDAO{
 	 * 
 	 * @see com.finvendor.dao.VendorDAOImpl#getVendorDetails(com.finvendor.model.Vendor)
 	 */
+	/*
 	@Transactional
 	@Override
 	public Vendor getVendorDetails(String appUser) {
@@ -124,6 +125,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return vendor;
 	}
+	*/
 	
 	/** --------------------------------------------------------------------- */
 	/**

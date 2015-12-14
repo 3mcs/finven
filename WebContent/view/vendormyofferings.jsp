@@ -20,7 +20,7 @@
 <c:set var="vendormyofferingsasanalyticsapplicationvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_ANALYTICS_APPLICATION_VENDOR %>"> </c:set>
 <c:set var="vendormyofferingsasresearchreportingvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_RESEARCH_REPORTING_VENDOR %>"> </c:set>
 
-<c:set var="dataaggregatorval" value="${dataaggregator}" ></c:set>
+<c:set var="dataaggregator" value="${dataaggregator}" ></c:set>
 <c:set var="tradingapplication" value="${tradingapplication}"></c:set>
 <c:set var="analyticsapplication" value="${analyticsapplication}"></c:set>
 <c:set var="researchreport" value="${researchreport}"></c:set>

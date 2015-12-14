@@ -6,7 +6,7 @@ package com.finvendor.service;
  
 import org.springframework.stereotype.Service;
 
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
@@ -22,7 +22,7 @@ public interface LoginService {
 	 * @param email
 	 * @return 
 	 */
-	Users getUserInfoByEmail(String email);
+	FinVendorUser getUserInfoByEmail(String email);
 
 
 }

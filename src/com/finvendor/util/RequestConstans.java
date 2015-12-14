@@ -286,11 +286,16 @@ public class RequestConstans {
 		public static final String CONSUMER_SHORTLISTED_VENDORS1 = "consumershortlistedvendor1";
 		public static final String CONSUMER_FINAL_VENDOR1 = "consumerfinalvendor1";
 		
+		//Company Type
+		public static final String FIN_CONSUMER_COMPANY_SELL_SIDE = "Financial Firm - Sell side";
+		public static final String FIN_CONSUMER_COMPANY_BUY_SIDE = "Financial Firm - Buy side"; 
+		public static final String FIN_CONSUMER_COMPANY_OTHERS = "Financial Firm - Others";
+		public static final String CONSUMER_UNIVERSITY = "University/College";
+		public static final String CONSUMER_OTHER_FIRM = "Other Firm";
+		
 		
 	}
-	
-	
-	
+		
 	public static final Map<String, String> reqParamDescriptionMap = new HashMap<>();
 	
 	static{
@@ -308,7 +313,7 @@ public class RequestConstans {
 		reqParamDescriptionMap.put("RESOURCES_w", "Whitepapers");
 		reqParamDescriptionMap.put("RESOURCES_blgs", "Blogs");
 		reqParamDescriptionMap.put("RESOURCES_cs", "Case Studies");
-		reqParamDescriptionMap.put("RESOURCES_s", "Spotlights");
+		reqParamDescriptionMap.put("RESOURCES_s", "Spotlights");	
 	}
 	
 	
@@ -320,5 +325,6 @@ public class RequestConstans {
 	public static final String INVALID_PASSWORD = "Invalid Password entered.\nPlease note account will be locked after " + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessful attempts.";
 	public static final String ACCOUNT_DISABLED = "User Account is disabled";
 	public static final String UNSUCCESSFUL_ATTEMPTS = "" + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessfull password attempts. Account is disabled";
+	public static final int REGISTRATION_LINK_EXPIRY = 48;	
 		
 }

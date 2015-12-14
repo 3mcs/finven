@@ -13,8 +13,7 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.finvendor.daoimpl.UserDAOImpl;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 
 public class EmailUtil {
 	
@@ -30,14 +29,14 @@ public class EmailUtil {
 	public static final String EMAIL_PASSWORD = "amit_mv";
 	public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
 	//public static final String REGISTRATION_LINK = "http://localhost:8080/validateRegistrationEmail";
-	public static final String FROM_EMAIL = "sales@finvendor.com";
+	public static final String FROM_EMAIL = "support@finvendor.com";
 	
 	public static void main(){
 		EmailUtil em = new EmailUtil();
 		em.sendMail();
 	}
 	
-	public void sendRegistartionEmail(Users user, String emailId, String registrationId) throws MessagingException{
+	public void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId) throws MessagingException{
 		logger.debug("Entering EmailUtil:sendRegistartionEmail for {}", emailId);
 		Session session = getMailSession();
 		Message message = new MimeMessage(session);
@@ -56,7 +55,7 @@ public class EmailUtil {
 		content.append("@");
 		content.append(user.getUserName());
 		content.append("\n\n");
-		content.append("Please note that link will expire in " + UserDAOImpl.REGISTRATION_LINK_EXPIRY + " Hours");
+		content.append("Please note that link will expire in " + RequestConstans.REGISTRATION_LINK_EXPIRY + " Hours");
 		message.setText(content.toString());
 		Transport.send(message);
 		logger.debug("Leaving EmailUtil:sendRegistartionEmail for {}", emailId);

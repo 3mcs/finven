@@ -194,7 +194,7 @@
 																			data-mandatory="Y" placeholder="Company URL"
 																			name="companyurl" class="m-wrap large"
 																			onblur="validateWithRegularExpression(this, 'vendorProfileCompanyURLErrorMsg', regularExpressionMap['URL'], 'COMPANY_URL', true)"
-																			value="${vendor.company_url}" />
+																			value="${vendor.companyUrl}" />
 																		<div>
 																			<label id="vendorProfileCompanyURLErrorMsg"
 																				class="errorMessage"></label>
@@ -210,7 +210,7 @@
 																			data-mandatory="Y" placeholder="Company Information"
 																			name="companyinfo" class="m-wrap large" cols="30"
 																			rows="5"
-																			onblur="validateNotNull(this, 'vendorProfileCompanyInfoErrorMsg')">${vendor.company_info}</textarea>
+																			onblur="validateNotNull(this, 'vendorProfileCompanyInfoErrorMsg')">${vendor.companyInfo}</textarea>
 																		<div>
 																			<label id="vendorProfileCompanyInfoErrorMsg"
 																				class="errorMessage"></label>
@@ -226,8 +226,8 @@
 																		<input type="text" id="personalvenprimemail"
 																			data-mandatory="Y" placeholder="Primary Email"
 																			name="primaryemail" class="m-wrap large"
-																			onblur="if (validateWithRegularExpression(this, 'vendorProfilePrimaryEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true)) validateAjax(this, 'checkExistingEmail','vendorProfilePrimaryEmailErrorMsg')"
-																			value="${vendor.email}" />
+																			<%--onblur="if (validateWithRegularExpression(this, 'vendorProfilePrimaryEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true)) validateAjax(this, 'checkExistingEmail','vendorProfilePrimaryEmailErrorMsg')"--%>
+																			readonly value="${vendor.user.email}" />
 																		<div>
 																			<label id="vendorProfilePrimaryEmailErrorMsg"
 																				class="errorMessage"></label>
@@ -242,7 +242,7 @@
 																			placeholder="Secondary Email" name="secondaryemail"
 																			class="m-wrap large"
 																			onblur="if (validateWithRegularExpression(this, 'vendorProfileSecondaryEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', false)) validateAjax(this, 'checkExistingEmail','vendorProfileSecondaryEmailErrorMsg')"
-																			value="${vendor.secondary_email}" />
+																			value="${vendor.secondaryEmail}" />
 																		<div>
 																			<label id="vendorProfileSecondaryEmailErrorMsg"
 																				class="errorMessage"></label>

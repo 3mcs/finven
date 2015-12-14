@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.LoginDAO;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
@@ -28,18 +28,18 @@ public class LoginDAOImpl implements LoginDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.LoginDAOImpl#getUserInfoByEmail(com.finvendor.model.Users)
+	 * @see com.finvendor.dao.LoginDAOImpl#getUserInfoByEmail(com.finvendor.model.FinVendorUser)
 	 */
 	@Transactional
-	public Users getUserInfoByEmail(String email) {
+	public FinVendorUser getUserInfoByEmail(String email) {
 		Criteria criteria=null;
 		try{
-			criteria=this.sessionFactory.getCurrentSession().createCriteria(Users.class);
+			criteria=this.sessionFactory.getCurrentSession().createCriteria(FinVendorUser.class);
 			criteria.add(Restrictions.eq("email", email));
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return (Users)criteria.uniqueResult();
+		return (FinVendorUser)criteria.uniqueResult();
 	}
 
 	 

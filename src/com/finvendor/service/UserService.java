@@ -8,7 +8,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.finvendor.model.UserRole;
-import com.finvendor.model.Users;
+import com.finvendor.model.Vendor;
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
@@ -24,7 +26,7 @@ public interface UserService {
 	 * @param users
 	 * @return integer
 	 */
-	public void saveUserInfo(Users users);
+	public void saveUserInfo(FinVendorUser users);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -42,7 +44,7 @@ public interface UserService {
 	 * @param username
 	 * @return 
 	 */
-	public boolean validateUsername(String username);
+	public boolean validateUsername(String username) throws ApplicationException;
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -62,14 +64,14 @@ public interface UserService {
 	 * @param username,password
 	 * @return 
 	 */
-	public List<Users> getUserInfoByNamewithPassword(String username,
+	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
 			String password);
 	
 	
-	public Users getUserDetailsByUsername(String username);
+	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException;
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset);
 	public int updateUserAccountStatus(String username, boolean status);
-	public String insertRegistrationVerificationRecord(String username, String email, boolean recreate);
+	public String insertRegistrationVerificationRecord(String username, boolean recreate);
 	public boolean updateUserVerificationStatus(String userName, String registrationId);
-	public String getRegistrationEmailForUsername(String username);
+	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException;
 }
