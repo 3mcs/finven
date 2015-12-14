@@ -25,7 +25,7 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
@@ -52,7 +52,7 @@ public class FinancialAnalyticsApplicationVendor {
 	 */
 	
 	@RequestMapping(value=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE, method=RequestMethod.GET)
-	public ModelAndView financialAnalyticsApplicationIndex(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView financialAnalyticsApplicationIndex(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 			logger.debug("Entering FinancialAnalyticsApplication : financialAnalyticsApplicationIndex");
 			List<AssetClass> assetClasses = null;

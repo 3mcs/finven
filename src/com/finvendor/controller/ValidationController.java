@@ -11,38 +11,56 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.finvendor.service.ConsumerService;
-import com.finvendor.service.VendorService;
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.service.UserService;
 
 @Controller
 public class ValidationController {
 	
 	private static Logger logger = Logger.getLogger(ValidationController.class);
 	
-	@Resource(name="vendorService")
-	private VendorService vendorService;
-	
-	@Resource(name="consumerService")
-	private ConsumerService consumerService;
+	@Resource(name="userService")
+	private UserService userService;
 	
 	@RequestMapping(value="checkExistingEmail", method=RequestMethod.POST)
-	public String checkExistingEmail(HttpServletRequest request, HttpServletResponse response){
+	public String checkExistingEmail(HttpServletRequest request, HttpServletResponse response) {
 		String email = request.getParameter("param");
 		logger.info("Validate existing Email : " + email);		
 		try{
-			if(vendorService.getVendorInfoByEmail(email) != null || consumerService.getConsumerInfoByEmail(email) != null){
+			if(userService.getUserDetailsByEmailId(email) != null){
 				response.getWriter().print("Email is already registered !");
 			}
 		}catch (IOException exp) {
 			logger.info("Error checking Email id : " + exp);
-		}catch (Exception exp) {
+		}catch (ApplicationException exp) {
 			logger.info("Error checking Email id : " + exp);
-			try{
-				response.getWriter().print("Error validating Email id");
-			}catch (IOException e) {
-				logger.info("Error checking Email id : " + e);
-			}
+			handleExceptionMessage(response, "Error validating Email id");
 		}
 		return null;
+	}
+	
+	@RequestMapping(value="checkExistingUser", method=RequestMethod.POST)
+	public String checkExistingUser(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("param");
+		logger.info("Validate existing User : " + username);		
+		try{
+			if(userService.validateUsername(username)){
+				response.getWriter().print("Username is already registered !");
+			}
+		}catch (IOException exp) {
+			logger.info("Error checking Username : " + exp);
+		}catch (ApplicationException exp) {
+			logger.info("Error checking Username : " + exp);
+			handleExceptionMessage(response, "Error validating Username");
+		}
+		return null;
+	}
+	
+	private void handleExceptionMessage(HttpServletResponse response, String message) {
+		try{
+			response.getWriter().print(message);
+		}catch (IOException exp) {
+			logger.error(message + " : " + exp);			
+		}
 	}
 }

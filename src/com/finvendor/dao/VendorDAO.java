@@ -60,7 +60,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getVendorDetails()
 	 */
-	Vendor getVendorDetails(String appUser);
+	//Vendor getVendorDetails(String appUser);
 
 	/** --------------------------------------------------------------------- */
 	/**

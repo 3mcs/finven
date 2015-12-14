@@ -3,8 +3,6 @@
  */
 package com.finvendor.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +26,11 @@ import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
 import com.finvendor.model.UserRole;
-import com.finvendor.model.Users;
 import com.finvendor.model.Vendor;
-import com.finvendor.model.VendorOffering;
-import com.finvendor.model.VendorSupportCoverageDetails;
 import com.finvendor.service.LoginService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.UserService;
@@ -95,7 +91,7 @@ public class LoginController {
 		try{
 			username=CommonUtils.decrypt(username.getBytes());
 			password=CommonUtils.decrypt(password.getBytes());
-			Users user = userService.getUserDetailsByUsername(username);			
+			FinVendorUser user = userService.getUserDetailsByUsername(username);			
 			if(user == null){
 				logger.error("No User record available for : " + username);
 				status = status + ":" + RequestConstans.INVALID_USER;
@@ -111,7 +107,7 @@ public class LoginController {
 						status = "true";
 					}else{
 						logger.error("Incorrect password enterd for : " + username);
-						if(user.getLogin_attempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS){
+						if(user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS){
 							userService.updateUserAccountStatus(username, false);
 						}else{
 							userService.updateUnsuccessfulLoginAttempts(username, false);
@@ -146,7 +142,7 @@ public class LoginController {
 	 */
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value=RequestConstans.Login.WELCOME, method=RequestMethod.GET)
-	public ModelAndView welcomeInfo(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView welcomeInfo(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@ModelAttribute("userRole") UserRole userRole,@ModelAttribute("vendor") Vendor vendor){
 		logger.info("Method to load all home pages 4---:");
 		logger.info("redirectLink == " + (String)request.getSession().getAttribute("redirectLink"));
@@ -167,7 +163,7 @@ public class LoginController {
 					getAuthentication().getPrincipal();
 			try{
 			if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_ADMIN))){
-				logger.info("ROLE = " + RequestConstans.Roles.ROLE_VENDOR);
+				logger.info("ROLE = " + RequestConstans.Roles.ROLE_ADMIN);
 				modelAndView=new ModelAndView(RequestConstans.Login.ADMIN_INFO);
 	       		modelAndView.addObject("username", appUser.getUsername());
 	       	} else if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_VENDOR))){
@@ -181,7 +177,15 @@ public class LoginController {
 				costs  = marketDataAggregatorsService.getAllCostInfo();
 				awards = marketDataAggregatorsService.getAllAwards();
 				
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				logger.info(vendor.getId());
+				logger.info(vendor.getCompany());
+				logger.info(vendor.getCompanyAddress());
+				logger.info(vendor.getCompanyInfo());
+				logger.info(vendor.getFirstName());
+				logger.info(vendor.getDesignation());
+				
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
 				
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);
@@ -353,11 +357,11 @@ public class LoginController {
 	@RequestMapping(value =RequestConstans.Login.RESET_PASSWORD, method=RequestMethod.GET)
     public ModelAndView resetForgetPassword(@RequestParam("email") String email) {
 		logger.info("Method to reset forget password 11---:");
-		Users users=null;
+		FinVendorUser user=null;
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
        try{
         if(!email.equals("") && email != null){
-        	 users=loginService.getUserInfoByEmail(email); 
+        	user=loginService.getUserInfoByEmail(email); 
         }
        }
        catch(Exception ex){

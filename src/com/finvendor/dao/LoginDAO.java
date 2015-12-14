@@ -3,7 +3,7 @@
  */
 package com.finvendor.dao;
 
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
@@ -18,7 +18,7 @@ public interface LoginDAO {
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.LoginDAO#getUserInfoByEmail()
 	 */
-	Users getUserInfoByEmail(String email);
+	FinVendorUser getUserInfoByEmail(String email);
  
 
 }

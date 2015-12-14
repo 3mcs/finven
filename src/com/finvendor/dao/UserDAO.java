@@ -6,7 +6,8 @@ package com.finvendor.dao;
 import java.util.List;
 
 import com.finvendor.model.UserRole;
-import com.finvendor.model.Users;
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
@@ -21,7 +22,7 @@ public interface UserDAO {
 	 * @return Integer with success or failure messages
 	 * @see com.finvendor.dao.UserDAO#saveUsers()
 	 */
-	public void saveUserInfo(Users users);
+	public void saveUserInfo(FinVendorUser users);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -37,9 +38,10 @@ public interface UserDAO {
 	 * (non-Javadoc) Method to validate username
 	 * 
 	 * @return Integer with success or failure messages
+	 * @throws ApplicationException 
 	 * @see com.finvendor.dao.UserDAO#validateUsername()
 	 */
-	public boolean validateUsername(String username);
+	public boolean validateUsername(String username) throws ApplicationException;
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -59,20 +61,20 @@ public interface UserDAO {
 	 * @return 
 	 * @see com.finvendor.dao.UserDAO#getUsersInfoByNamewithPassword()
 	 */
-	public List<Users> getUserInfoByNamewithPassword(String username,
+	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
 			String password);
 
 	
-	public Users getUserDetailsByUsername(String username);
+	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException;
 	
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset);
 	
 	public int updateUserAccountStatus(String username, boolean status);
 	
-	public void insertRegistrationVerificationRecord(String username, String email, String registration_id, boolean recreate);
+	public void insertRegistrationVerificationRecord(String username, String registration_id, boolean recreate);
 	
 	public int updateUserVerificationStatus(String username, String registration_id);
 	
-	public String getRegistrationEmailForUsername(String username);
+	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException;
 	
 }

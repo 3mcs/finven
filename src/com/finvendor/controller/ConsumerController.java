@@ -24,7 +24,7 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
@@ -61,7 +61,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_MY_PROFILE, method=RequestMethod.GET)
-	public ModelAndView consumerMyProfile(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerMyProfile(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -111,7 +111,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS, method=RequestMethod.GET)
-	public ModelAndView consumerMyOfferings(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerMyOfferings(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -161,7 +161,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -212,7 +212,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerMarketDataNeedsInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerMarketDataNeedsInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -264,7 +264,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerTRADINGAPPLICATIONInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerTRADINGAPPLICATIONInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -316,7 +316,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerAanylyticApplicationInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerAanylyticApplicationInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -368,7 +368,7 @@ private static Logger logger = Logger.getLogger(ConsumerController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerReaserchReportInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView consumerReaserchReportInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYVeMu", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;

@@ -1,20 +1,19 @@
-/**
- * 
- */
 package com.finvendor.controller;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.model.Consumer;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Roles;
 import com.finvendor.model.UserRole;
-import com.finvendor.model.Users;
 import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.UserService;
@@ -35,25 +34,25 @@ import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 
-/**
- * @author rayulu vemula
- *
- */
 @Controller
 public class RegistrationController {
 
 	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 	
-	String[] vendorTypes = {"Financial Vendor- Data Aggregators", "Financial Vendor- Trading Applications","Financial Vendor- Financial Analytics applications","Financial Vendor- Research report"};
-	String[] consumerTypes = {"Financial Firm - Sell side", "Financial Firm - Buy side","Financial Firm - Others","University/College","Other firm"};
+	String[] vendorTypes = {RequestConstans.Vendor.DATA_AGGREGATOR, RequestConstans.Vendor.TRADING_APPLICATION, 
+			RequestConstans.Vendor.ANALYTICS_APPLICATION, RequestConstans.Vendor.RESEARCH_REPORT};
+	String[] consumerTypes = {RequestConstans.Consumer.FIN_CONSUMER_COMPANY_SELL_SIDE, RequestConstans.Consumer.FIN_CONSUMER_COMPANY_BUY_SIDE, 
+			RequestConstans.Consumer.FIN_CONSUMER_COMPANY_OTHERS, RequestConstans.Consumer.CONSUMER_UNIVERSITY, RequestConstans.Consumer.CONSUMER_OTHER_FIRM};
+	List<String> vendorTypesList = Arrays.asList(vendorTypes);
+	List<String> consumerTypesList = Arrays.asList(consumerTypes);
 	
-	@Autowired
+	@Resource(name="userService")
 	private UserService userService;
 	
-	@Autowired
+	@Resource(name="vendorService")
 	private VendorService vendorService;
 	
-	@Autowired
+	@Resource(name="consumerService")
 	private ConsumerService consumerService;
 	
 	/**
@@ -64,10 +63,10 @@ public class RegistrationController {
 	 *             the exception
 	 */	
 	@RequestMapping(value=RequestConstans.Register.REGISTER, method=RequestMethod.GET)
-	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") Users users){
+	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users){
 		logger.info("Mehtod for toregisterNavigation--:");
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Register.REGISTER);
-		modelAndView.addObject("users", new Users());
+		modelAndView.addObject("users", new FinVendorUser());
 		return modelAndView;
 	}
 
@@ -78,7 +77,7 @@ public class RegistrationController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	
+	/*
 	@RequestMapping(value=RequestConstans.Register.REGISTERUSERCHECK, method=RequestMethod.POST)
 	public ModelAndView checkUserNameValidation(HttpServletRequest request,@ModelAttribute("users") Users users,
 			@RequestParam(value = "VEuLA", required = false) String username){
@@ -94,6 +93,7 @@ public class RegistrationController {
 		}
 		return modelAndView;
 	}
+	*/
 	
 	/**
 	 * method for to check phone number validation
@@ -210,7 +210,22 @@ public class RegistrationController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	
+	/* CHECK FOR REMOVAL #################################################### */
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 	@RequestMapping(value=RequestConstans.Register.CHECKEMAILEXIST, method=RequestMethod.POST)
 	public ModelAndView checkEmailValidationExist(HttpServletRequest request,
 			@RequestParam(value = "RAyVE", required = false) String email,
@@ -235,6 +250,7 @@ public class RegistrationController {
 		}
 		return modelAndView;
 	}
+	
 	/**
 	 * method for check email validation
 	 * 
@@ -276,99 +292,96 @@ public class RegistrationController {
 		}
 		return modelAndView;
 	}
-	/**
-	 * method for register navigation
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
+	
 	
 	@RequestMapping(value=RequestConstans.Register.REGISTERATION, method=RequestMethod.POST)
-	public ModelAndView saveVendorInfo(HttpServletRequest request,@ModelAttribute("users") Users users,
-							@ModelAttribute("userRole") UserRole userRole,
-							@ModelAttribute("roles") Roles roles,
-							@ModelAttribute("vendor") Vendor vendor,
-							@ModelAttribute("consumer") Consumer consumer,
-							@RequestParam(value = "VEuMlA", required = false) String uname,
-							@RequestParam(value = "RaYulU", required = false) String password,
-							@RequestParam(value = "ChEnGA", required = false) String email,
-							@RequestParam(value = "LaKS", required = false) String company,
-							@RequestParam(value = "ZaB", required = false) String companytype,
-							@RequestParam(value = "NoR", required = false) String tags){
-		ModelAndView modelAndView=null;
+	public ModelAndView saveUserInfo(HttpServletRequest request, 
+			@ModelAttribute("users") FinVendorUser user,
+			@ModelAttribute("userRole") UserRole userRole,
+			@ModelAttribute("roles") Roles role,
+			@ModelAttribute("vendor") Vendor vendor,
+			@ModelAttribute("consumer") Consumer consumer,
+			@RequestParam(value = "VEuMlA", required = false) String uname,
+			@RequestParam(value = "RaYulU", required = false) String password,
+			@RequestParam(value = "ChEnGA", required = false) String email,
+			@RequestParam(value = "LaKS", required = false) String company,
+			@RequestParam(value = "ZaB", required = false) String companyType,
+			@RequestParam(value = "NoR", required = false) String tags) {
+		
+		logger.debug("Entering RegistrationController : saveUserInfo");
+		ModelAndView modelAndView = null;
 		boolean status = false;
-		try{
-			uname=CommonUtils.decrypt(uname.getBytes());
-			password=CommonUtils.decrypt(password.getBytes());
+		Set<UserRole> userRoles = null;
+		try {
+			
+			uname = CommonUtils.decrypt(uname.getBytes());
+			password = CommonUtils.decrypt(password.getBytes());
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-			email=CommonUtils.decrypt(email.getBytes());
-			logger.info("Mehtod to save vendor information--:");
-			modelAndView=new ModelAndView(RequestConstans.Register.EMPTY);
-			users.setUserName(uname.toLowerCase());
-			users.setPassword(encoder.encode(password));
-			users.setEnabled(false);
-			users.setVerified("N");
-			users.setRegistration_date(new Timestamp(System.currentTimeMillis()));
-			userService.saveUserInfo(users);
-			String registrationId = userService.insertRegistrationVerificationRecord(users.getUserName(), email, false);
-			// Vendor information Registration
-			if (Arrays.asList(vendorTypes).contains(companytype)) {
-				roles.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
-				userRole.setUsers(users);
-				userRole.setRoles(roles);
-				userService.saveUserRolesInfo(userRole);
+			email = CommonUtils.decrypt(email.getBytes());
+			modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
+			user.setUserName(uname.toLowerCase());
+			user.setPassword(encoder.encode(password));
+			user.setEnabled(false);
+			user.setEmail(email.toLowerCase());
+			user.setVerified("N");
+			user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));			
+			boolean isVendor = checkUserTypeFromCompany(companyType);			
+			
+			if(isVendor) {
+				role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
 				vendor.setId(UUID.randomUUID().toString());
-				vendor.setFirstName(uname.toLowerCase());
+				vendor.setFirstName(uname);
 				vendor.setLastName("");
 				vendor.setDesignation("");
-				vendor.setEmail(email.toLowerCase());
-				vendor.setSecondary_email("");
+				vendor.setSecondaryEmail("");
 				vendor.setTelephone("");
 				vendor.setCompany(company);
-				vendor.setCompany_info("best equite");
-				vendor.setCompany_url(company);
-				vendor.setCompanyType(companytype);
+				vendor.setCompanyInfo("");
+				vendor.setCompanyUrl("");
+				vendor.setCompanyType(companyType);
 				vendor.setTags(tags);
-				vendor.setUsers(users);
-				vendor.setCompanyAddress("Bengalure");
-				vendor.setCountryofincorp("");
-				vendor.setRegionofincorp(new Integer(""));
-				vendorService.saveVendorInfo(vendor);
-				modelAndView.addObject("status", true);
-			}else{
-				roles.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
-				userRole.setUsers(users);
-				userRole.setRoles(roles);
-				userService.saveUserRolesInfo(userRole);
+				vendor.setCompanyAddress("");
+				vendor.setCountryofincorp("");				
+				vendor.setUser(user);
+				user.setVendor(vendor);
+			}else {				
+				role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
 				consumer.setId(UUID.randomUUID().toString());
-				consumer.setFirstName(uname.toLowerCase());
-				consumer.setLastName(uname.toLowerCase());
-				consumer.setEmail(email.toLowerCase());
-				consumer.setTelephone("8888888888");
+				consumer.setFirstName(uname);
+				consumer.setLastName("");
+				consumer.setTelephone("");
 				consumer.setCompany(company);
-				consumer.setCompanyType(companytype);
+				consumer.setCompanyType(companyType);
 				consumer.setTags(tags);
-				consumer.setUsers(users);
-				consumerService.saveConsumerInfo(consumer);
-				modelAndView.addObject("status", true);
+				consumer.setUser(user);
+				user.setConsumer(consumer);				
 			}
-			EmailUtil emailUtil = new EmailUtil();
-			emailUtil.sendRegistartionEmail(users, email.toLowerCase(), registrationId);
 			
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Error saving vendor inforamtion--"+ e);
+			userRole.setRoles(role);
+			userRole.setUser(user);
+			userRoles = new HashSet<UserRole>();
+			userRoles.add(userRole);
+			user.setUserRoles(userRoles);			
+			userService.saveUserInfo(user);
+			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
+			
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+			modelAndView.addObject("status", true);
+			logger.debug("Leaving RegistrationController : saveUserInfo");
+			
+		}catch (Exception exp) {
+			logger.error("Error saving User inforamtion : ", exp);
 			modelAndView.addObject("status", status);
 		}
 				
 		return modelAndView;
 	}
 	
-	
 	@RequestMapping(value="validateRegistrationEmail", method=RequestMethod.GET)
 	public ModelAndView validateRegistrationEmail(HttpServletRequest request,
-			@RequestParam(value = "param", required = true) String regId){
+			@RequestParam(value = "param", required = true) String regId) {
+		
 		logger.debug("Entering RegistrationController:validateRegistrationEmail for {}", regId);
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
 		boolean userVerified = false;
@@ -382,11 +395,11 @@ public class RegistrationController {
 			userVerified = userService.updateUserVerificationStatus(username, registrationId);
 			if(!userVerified){
 				logger.error("Error validating registrationId {}", registrationId);
-				userVerified = userService.validateUsername(username);
-				if(userVerified){
+				FinVendorUser user = userService.getUserDetailsByUsername(username);
+				if(user != null){
 					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>Validation link may have been expired");
 					modelAndView.addObject("linkExpired", true);
-					String email = userService.getRegistrationEmailForUsername(username);
+					String email = user.getEmail();
 					logger.debug("RegistrationController:validateRegistrationEmail : email = {}", email);
 					modelAndView.addObject("registrationEmail", email);
 				}else{
@@ -409,8 +422,8 @@ public class RegistrationController {
 		logger.debug("Entering RegistrationController:resendRegistrationLink for {}", username);
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
 		try{			
-			Users user = userService.getUserDetailsByUsername(username);
-			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), email, true);
+			FinVendorUser user = userService.getUserDetailsByUsername(username);
+			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), true);
 			EmailUtil emailUtil = new EmailUtil();
 			emailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
 			modelAndView.addObject("resendRegistrationLink", "success");	
@@ -423,5 +436,14 @@ public class RegistrationController {
 		return modelAndView;
 	}
 	
+	private boolean checkUserTypeFromCompany(String companyType) {
+		String[] companyTypeSelected = companyType.split(",");
+		for(String company : companyTypeSelected){
+			if(vendorTypesList.contains(company)){
+				return true;
+			}
+		}		
+		return false;
+	}
 	
 }

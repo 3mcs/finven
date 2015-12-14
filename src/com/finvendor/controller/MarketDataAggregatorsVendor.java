@@ -35,7 +35,7 @@ import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.Support;
-import com.finvendor.model.Users;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.AssetSecurityTypes.Assets;
 import com.finvendor.util.AssetSecurityTypes.SecurityTypes;
@@ -63,7 +63,7 @@ public class MarketDataAggregatorsVendor {
 	 */
 	
 	@RequestMapping(value=RequestConstans.MarketAggregators.MARKETAGGREGATORS, method=RequestMethod.GET)
-	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView registerNavigation(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 			logger.debug("Entering MarketDataAggregatorsVendor : registerNavigation");
 			List<AssetClass> assetClasses = null;
@@ -503,7 +503,7 @@ public class MarketDataAggregatorsVendor {
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value=RequestConstans.MarketAggregators.SINGLE_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
-	public ModelAndView singleSearchAssetClass(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView singleSearchAssetClass(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
 			@RequestParam(value = "assetclass", required = false) String assetclassId,
 			@RequestParam(value = "securitytype", required = false) String securitytypeId,
 			@RequestParam(value = "dataattribute", required = false) String dataattribute,

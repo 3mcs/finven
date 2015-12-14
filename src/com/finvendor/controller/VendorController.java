@@ -3,15 +3,14 @@
  */
 package com.finvendor.controller;
 
-import java.sql.Blob;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.annotation.MultipartConfig;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.model.AssetClass;
@@ -33,7 +31,6 @@ import com.finvendor.model.Region;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
-import com.finvendor.model.Users;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAwardsMap;
 import com.finvendor.model.VendorMyofferingsDataCoverage;
@@ -49,24 +46,17 @@ import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 import com.google.gson.Gson;
 
-/**
- * @author rayulu vemula
- *
- */
 @Controller
 public class VendorController {
 	
-private static Logger logger = Logger.getLogger(VendorController.class);
+	private static Logger logger = LoggerFactory.getLogger(VendorController.class);
 	
-	String[] vendorTypes = {"Financial Vendor- Data Aggregators", "Financial Vendor- Trading Applications","Financial Vendor- Financial Analytics applications","Financial Vendor- Research report"};
-	String[] consumerTypes = {"Financial Firm - Sell side", "Financial Firm - Buy side","Financial Firm - Others","University/College","Other firm"};
-	
-	@Autowired
+	@Resource(name="userService")
 	private UserService userService;
 	
-	@Autowired
+	@Resource(name="vendorService")
 	private VendorService vendorService;
-
+	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
 	
@@ -79,7 +69,7 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_PROFILE, method=RequestMethod.GET)
-	public ModelAndView vendorMyProfile(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView vendorMyProfile(HttpServletRequest request,@ModelAttribute("users") User users,
 			@RequestParam(value = "RaYUnA", required = false) String username,
 			@ModelAttribute("vendor") Vendor vendor){
 		logger.info("Mehtod for vendorNavigation--:");
@@ -104,7 +94,10 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 			awards = marketDataAggregatorsService.getAllAwards();
 			
 			username = CommonUtils.decrypt(username.getBytes());
-			vendor = vendorService.getVendorDetails(username);
+			
+			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			
+			//vendor = vendorService.getVendorDetails(username);
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -123,18 +116,11 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 		return modelAndView;
 	}
 	
-	/**
-	 * method for navigate vendor profile
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_OFFERINGS, method=RequestMethod.GET)
-	public ModelAndView vendorMyOFFERINGS(HttpServletRequest request,@ModelAttribute("users") Users users,
-			@RequestParam(value = "RaYUnA", required = false) String username){
-		logger.info("Mehtod for vendorNavigation--:");
+	public ModelAndView vendorMyOfferings(HttpServletRequest request,
+			@RequestParam(value = "RaYUnA", required = false) String username) {
+		
+		logger.debug("Entering VendorController : vendorMyOfferings");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
 		List<Country> countries = null;
@@ -142,10 +128,10 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 		List<Support> supports = null;
 		List<Cost> costs = null;
 		List<Awards> awards = null;
-		@SuppressWarnings("unused")
-		Vendor vendor=null;
-		String[] vendorTags = null;
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
+		Vendor vendor = null;
+		String[] vendorOfferings = null;
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
+		
 		try{
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
@@ -155,16 +141,28 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 			costs  = marketDataAggregatorsService.getAllCostInfo();
 			awards = marketDataAggregatorsService.getAllAwards();
 			username = CommonUtils.decrypt(username.getBytes());
-			//Vendor my offerings tabs info--
-			vendor = vendorService.getVendorDetails(username);
-			 vendorTags  = vendor.getTags().split(",");
-			for (String vendormyofferingtags : vendorTags) {
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) modelAndView.addObject("dataaggregator", vendormyofferingtags);
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) modelAndView.addObject("tradingapplication", vendormyofferingtags);
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) modelAndView.addObject("analyticsapplication", vendormyofferingtags);
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) modelAndView.addObject("researchreport", vendormyofferingtags);
-			} 
-			
+			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			String vendorCompanyTypes = vendor.getCompanyType();
+			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
+			vendorOfferings  = vendorCompanyTypes.split(",");
+			for (String vendormyofferingtags : vendorOfferings) {
+				 if(vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
+					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
+					 modelAndView.addObject("dataaggregator", vendormyofferingtags);
+				 }
+				 if(vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
+					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.TRADING_APPLICATION);
+					 modelAndView.addObject("tradingapplication", vendormyofferingtags);
+				 }
+				 if(vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
+					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.ANALYTICS_APPLICATION);
+					 modelAndView.addObject("analyticsapplication", vendormyofferingtags);
+				 }
+				 if(vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
+					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
+					 modelAndView.addObject("researchreport", vendormyofferingtags);
+				 }
+			} 			
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -173,13 +171,12 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 			modelAndView.addObject("supports", supports);
 			modelAndView.addObject("costs", costs);
 			modelAndView.addObject("awards", awards);
-			modelAndView.addObject("myofferingstab", "myofferings");
-			
+			//modelAndView.addObject("myofferingstab", "myofferings");			
 			modelAndView.addObject("username", username);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Mehtod for vendorNavigation--:");
+		}catch (Exception exp) {
+			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
+		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}
 	
@@ -193,7 +190,7 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_RFP_INBOX, method=RequestMethod.GET)
-	public ModelAndView vendorRFPInbox(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView vendorRFPInbox(HttpServletRequest request,@ModelAttribute("users") User users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -245,7 +242,7 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 	 */
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER, method=RequestMethod.GET)
-	public ModelAndView vendorSearchDataBuyers(HttpServletRequest request,@ModelAttribute("users") Users users,
+	public ModelAndView vendorSearchDataBuyers(HttpServletRequest request,@ModelAttribute("users") User users,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 		logger.info("Mehtod for vendorsearch data buyers--:");
 		@SuppressWarnings("unused")
@@ -404,11 +401,11 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 				vendor.setFirstName(venFirstname);
 				vendor.setLastName(venLastname);
 				vendor.setDesignation(venDesignation);
-				vendor.setCompany_url(venCompanyUrl);
-				vendor.setCompany_info(venCompanyInfo);
+				vendor.setCompanyUrl(venCompanyUrl);
+				vendor.setCompanyInfo(venCompanyInfo);
 				vendor.setCompany(venCompany);
-				vendor.setEmail(venPrimEmail);
-				vendor.setSecondary_email(venSecEmail);
+				//vendor.setEmail(venPrimEmail);
+				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
 				// Image upload code in vendor dashboard---:
 				/*@SuppressWarnings("deprecation")
@@ -422,7 +419,8 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 				country = vendorService.getCountryByName(venCountryOfIncorp);
 				vendor.setCountryofincorp(country.getCountry_id().toString());
 				vendorService.updateVendorPersonalInfoTab(vendor,appUser.getUsername());
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
 				modelAndView.addObject("vendorDetails", vendor);
 		 	}
 		} catch (Exception ex) {
@@ -465,7 +463,8 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 					getAuthentication().getPrincipal();
 			if(!supportCoverageInfo.equals("") && supportCoverageInfo != null){
 				vendorSupportCoverages = gson.fromJson(replaceJsonInput(supportCoverageInfo.toString()), VendorSupportCoverage[].class);
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
 				vendor.setId(vendor.getId());
 				if(vendorSupportCoverages.length > 0)
 				for (VendorSupportCoverage vendorSupportCoverage : vendorSupportCoverages) {
@@ -564,7 +563,8 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 			appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
 			if(!awardassetclass.equals("")){
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
 				assetClass = vendorService.getAssetClassDetails(awardassetclass);
 				securityType = vendorService.getSecurityTypes(securityTypeName);
@@ -614,7 +614,8 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 			appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
 			if(!databuyername.equals("")){
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
 		 	}
 		} catch (Exception ex) {
@@ -657,7 +658,8 @@ private static Logger logger = Logger.getLogger(VendorController.class);
 					getAuthentication().getPrincipal();
 			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
 				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
-				vendor = vendorService.getVendorDetails(appUser.getUsername());
+				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				//vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
 				if(vendorMyofferingsDataCoverages.length > 0)
 				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
